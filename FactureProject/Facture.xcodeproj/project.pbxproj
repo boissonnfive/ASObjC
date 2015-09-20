@@ -1,0 +1,348 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		1525860719BC5F4A005B83D7 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1525860619BC5F4A005B83D7 /* Cocoa.framework */; };
+		1525860919BC5F4A005B83D7 /* AppleScriptObjC.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1525860819BC5F4A005B83D7 /* AppleScriptObjC.framework */; };
+		1525861319BC5F4A005B83D7 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1525861119BC5F4A005B83D7 /* InfoPlist.strings */; };
+		1525861519BC5F4A005B83D7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 1525861419BC5F4A005B83D7 /* main.m */; };
+		1525861919BC5F4A005B83D7 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 1525861719BC5F4A005B83D7 /* Credits.rtf */; };
+		1525861B19BC5F4A005B83D7 /* AppDelegate.applescript in Sources */ = {isa = PBXBuildFile; fileRef = 1525861A19BC5F4A005B83D7 /* AppDelegate.applescript */; };
+		1525861E19BC5F4A005B83D7 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1525861C19BC5F4A005B83D7 /* MainMenu.xib */; };
+		1525862019BC5F4A005B83D7 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1525861F19BC5F4A005B83D7 /* Images.xcassets */; };
+		1525862A19BC5FA1005B83D7 /* NSAlert+MyriadHelpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 1525862619BC5FA1005B83D7 /* NSAlert+MyriadHelpers.m */; };
+		1525862B19BC5FA1005B83D7 /* ObjectWithFords.m in Sources */ = {isa = PBXBuildFile; fileRef = 1525862719BC5FA1005B83D7 /* ObjectWithFords.m */; };
+		1525862E19BC62D4005B83D7 /* NSDatePicker+MyriadHelpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 1525862D19BC62D4005B83D7 /* NSDatePicker+MyriadHelpers.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		1525860319BC5F4A005B83D7 /* Facture.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Facture.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		1525860619BC5F4A005B83D7 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
+		1525860819BC5F4A005B83D7 /* AppleScriptObjC.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppleScriptObjC.framework; path = System/Library/Frameworks/AppleScriptObjC.framework; sourceTree = SDKROOT; };
+		1525860B19BC5F4A005B83D7 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
+		1525860C19BC5F4A005B83D7 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		1525860D19BC5F4A005B83D7 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		1525861019BC5F4A005B83D7 /* Facture-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Facture-Info.plist"; sourceTree = "<group>"; };
+		1525861219BC5F4A005B83D7 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		1525861419BC5F4A005B83D7 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		1525861619BC5F4A005B83D7 /* Facture-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Facture-Prefix.pch"; sourceTree = "<group>"; };
+		1525861819BC5F4A005B83D7 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = en; path = en.lproj/Credits.rtf; sourceTree = "<group>"; };
+		1525861A19BC5F4A005B83D7 /* AppDelegate.applescript */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.applescript; path = AppDelegate.applescript; sourceTree = "<group>"; };
+		1525861D19BC5F4A005B83D7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		1525861F19BC5F4A005B83D7 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		1525862619BC5FA1005B83D7 /* NSAlert+MyriadHelpers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSAlert+MyriadHelpers.m"; sourceTree = "<group>"; };
+		1525862719BC5FA1005B83D7 /* ObjectWithFords.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ObjectWithFords.m; sourceTree = "<group>"; };
+		1525862819BC5FA1005B83D7 /* NSAlert+MyriadHelpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSAlert+MyriadHelpers.h"; sourceTree = "<group>"; };
+		1525862919BC5FA1005B83D7 /* ObjectWithFords.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ObjectWithFords.h; sourceTree = "<group>"; };
+		1525862C19BC62D4005B83D7 /* NSDatePicker+MyriadHelpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDatePicker+MyriadHelpers.h"; sourceTree = "<group>"; };
+		1525862D19BC62D4005B83D7 /* NSDatePicker+MyriadHelpers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDatePicker+MyriadHelpers.m"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		1525860019BC5F4A005B83D7 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1525860919BC5F4A005B83D7 /* AppleScriptObjC.framework in Frameworks */,
+				1525860719BC5F4A005B83D7 /* Cocoa.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		152585FA19BC5F4A005B83D7 = {
+			isa = PBXGroup;
+			children = (
+				1525860E19BC5F4A005B83D7 /* Facture */,
+				1525860519BC5F4A005B83D7 /* Frameworks */,
+				1525860419BC5F4A005B83D7 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		1525860419BC5F4A005B83D7 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				1525860319BC5F4A005B83D7 /* Facture.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		1525860519BC5F4A005B83D7 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				1525860619BC5F4A005B83D7 /* Cocoa.framework */,
+				1525860819BC5F4A005B83D7 /* AppleScriptObjC.framework */,
+				1525860A19BC5F4A005B83D7 /* Other Frameworks */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		1525860A19BC5F4A005B83D7 /* Other Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				1525860B19BC5F4A005B83D7 /* AppKit.framework */,
+				1525860C19BC5F4A005B83D7 /* CoreData.framework */,
+				1525860D19BC5F4A005B83D7 /* Foundation.framework */,
+			);
+			name = "Other Frameworks";
+			sourceTree = "<group>";
+		};
+		1525860E19BC5F4A005B83D7 /* Facture */ = {
+			isa = PBXGroup;
+			children = (
+				1525861A19BC5F4A005B83D7 /* AppDelegate.applescript */,
+				1525861C19BC5F4A005B83D7 /* MainMenu.xib */,
+				1525861F19BC5F4A005B83D7 /* Images.xcassets */,
+				1525860F19BC5F4A005B83D7 /* Supporting Files */,
+			);
+			path = Facture;
+			sourceTree = "<group>";
+		};
+		1525860F19BC5F4A005B83D7 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				1525862C19BC62D4005B83D7 /* NSDatePicker+MyriadHelpers.h */,
+				1525862D19BC62D4005B83D7 /* NSDatePicker+MyriadHelpers.m */,
+				1525862619BC5FA1005B83D7 /* NSAlert+MyriadHelpers.m */,
+				1525862719BC5FA1005B83D7 /* ObjectWithFords.m */,
+				1525862819BC5FA1005B83D7 /* NSAlert+MyriadHelpers.h */,
+				1525862919BC5FA1005B83D7 /* ObjectWithFords.h */,
+				1525861019BC5F4A005B83D7 /* Facture-Info.plist */,
+				1525861119BC5F4A005B83D7 /* InfoPlist.strings */,
+				1525861419BC5F4A005B83D7 /* main.m */,
+				1525861619BC5F4A005B83D7 /* Facture-Prefix.pch */,
+				1525861719BC5F4A005B83D7 /* Credits.rtf */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		1525860219BC5F4A005B83D7 /* Facture */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1525862319BC5F4A005B83D7 /* Build configuration list for PBXNativeTarget "Facture" */;
+			buildPhases = (
+				152585FF19BC5F4A005B83D7 /* Sources */,
+				1525860019BC5F4A005B83D7 /* Frameworks */,
+				1525860119BC5F4A005B83D7 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Facture;
+			productName = Facture;
+			productReference = 1525860319BC5F4A005B83D7 /* Facture.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		152585FB19BC5F4A005B83D7 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0510;
+				ORGANIZATIONNAME = BInfoService;
+			};
+			buildConfigurationList = 152585FE19BC5F4A005B83D7 /* Build configuration list for PBXProject "Facture" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 152585FA19BC5F4A005B83D7;
+			productRefGroup = 1525860419BC5F4A005B83D7 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				1525860219BC5F4A005B83D7 /* Facture */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		1525860119BC5F4A005B83D7 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1525861319BC5F4A005B83D7 /* InfoPlist.strings in Resources */,
+				1525862019BC5F4A005B83D7 /* Images.xcassets in Resources */,
+				1525861919BC5F4A005B83D7 /* Credits.rtf in Resources */,
+				1525861E19BC5F4A005B83D7 /* MainMenu.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		152585FF19BC5F4A005B83D7 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1525861B19BC5F4A005B83D7 /* AppDelegate.applescript in Sources */,
+				1525862B19BC5FA1005B83D7 /* ObjectWithFords.m in Sources */,
+				1525862E19BC62D4005B83D7 /* NSDatePicker+MyriadHelpers.m in Sources */,
+				1525862A19BC5FA1005B83D7 /* NSAlert+MyriadHelpers.m in Sources */,
+				1525861519BC5F4A005B83D7 /* main.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		1525861119BC5F4A005B83D7 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				1525861219BC5F4A005B83D7 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		1525861719BC5F4A005B83D7 /* Credits.rtf */ = {
+			isa = PBXVariantGroup;
+			children = (
+				1525861819BC5F4A005B83D7 /* en */,
+			);
+			name = Credits.rtf;
+			sourceTree = "<group>";
+		};
+		1525861C19BC5F4A005B83D7 /* MainMenu.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				1525861D19BC5F4A005B83D7 /* Base */,
+			);
+			name = MainMenu.xib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		1525862119BC5F4A005B83D7 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		1525862219BC5F4A005B83D7 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		1525862419BC5F4A005B83D7 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Facture/Facture-Prefix.pch";
+				INFOPLIST_FILE = "Facture/Facture-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		1525862519BC5F4A005B83D7 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Facture/Facture-Prefix.pch";
+				INFOPLIST_FILE = "Facture/Facture-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		152585FE19BC5F4A005B83D7 /* Build configuration list for PBXProject "Facture" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1525862119BC5F4A005B83D7 /* Debug */,
+				1525862219BC5F4A005B83D7 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		1525862319BC5F4A005B83D7 /* Build configuration list for PBXNativeTarget "Facture" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1525862419BC5F4A005B83D7 /* Debug */,
+				1525862519BC5F4A005B83D7 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 152585FB19BC5F4A005B83D7 /* Project object */;
+}
