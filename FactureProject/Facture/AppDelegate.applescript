@@ -15,6 +15,7 @@ script AppDelegate
     property tfNomClient : missing value
     property tfTypeIntervention : missing value
     property tfDureeIntervention : missing value
+    property tfNumeroDeFacture : missing value
     
     -- Propriétés du script modifiables
     -- fichier facture
@@ -140,6 +141,8 @@ Bruno.
         --log("Date du jour : " & (thisDate as text))
         --datePicker's setDateAS:thisDate
         datePicker's setDateAS:(current date)
+        
+        tfNumeroDeFacture's setStringValue_(numeroFacture)
         
         my logToFile("<---- Initialisation des variables")
         log("<---- Initialisation des variables")
@@ -514,10 +517,12 @@ Bruno.
                 
             end tell
             
+            activate
+            
             (* Insère la signature par GUI Scripting *)
             tell application "System Events"
                 tell process "Mail"
-                    
+                    --delay 1.3
                     tell window 1
                         click pop up button 1
                         click menu item 3 of menu 1 of pop up button 1
@@ -545,6 +550,8 @@ Bruno.
         set numeroFacture to numeroFacture + 1
         my logToFile("Numéro : " & numeroFacture)
         log("Numéro : " & numeroFacture)
+        tfNumeroDeFacture's setStringValue_(numeroFacture) -- MAJ de l'interface
+        
         
         (* Création du nom du fichier facture *)
         
