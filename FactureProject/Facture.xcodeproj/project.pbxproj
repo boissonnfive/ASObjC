@@ -18,6 +18,7 @@
 		1525862A19BC5FA1005B83D7 /* NSAlert+MyriadHelpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 1525862619BC5FA1005B83D7 /* NSAlert+MyriadHelpers.m */; };
 		1525862B19BC5FA1005B83D7 /* ObjectWithFords.m in Sources */ = {isa = PBXBuildFile; fileRef = 1525862719BC5FA1005B83D7 /* ObjectWithFords.m */; };
 		1525862E19BC62D4005B83D7 /* NSDatePicker+MyriadHelpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 1525862D19BC62D4005B83D7 /* NSDatePicker+MyriadHelpers.m */; };
+		1576A8411BAFF03F000A5E61 /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = 1576A8401BAFF03F000A5E61 /* README.md */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -41,6 +42,7 @@
 		1525862919BC5FA1005B83D7 /* ObjectWithFords.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ObjectWithFords.h; sourceTree = "<group>"; };
 		1525862C19BC62D4005B83D7 /* NSDatePicker+MyriadHelpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDatePicker+MyriadHelpers.h"; sourceTree = "<group>"; };
 		1525862D19BC62D4005B83D7 /* NSDatePicker+MyriadHelpers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDatePicker+MyriadHelpers.m"; sourceTree = "<group>"; };
+		1576A8401BAFF03F000A5E61 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -59,6 +61,7 @@
 		152585FA19BC5F4A005B83D7 = {
 			isa = PBXGroup;
 			children = (
+				1576A8401BAFF03F000A5E61 /* README.md */,
 				1525860E19BC5F4A005B83D7 /* Facture */,
 				1525860519BC5F4A005B83D7 /* Frameworks */,
 				1525860419BC5F4A005B83D7 /* Products */,
@@ -188,6 +191,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1576A8411BAFF03F000A5E61 /* README.md in Sources */,
 				1525861B19BC5F4A005B83D7 /* AppDelegate.applescript in Sources */,
 				1525862B19BC5FA1005B83D7 /* ObjectWithFords.m in Sources */,
 				1525862E19BC62D4005B83D7 /* NSDatePicker+MyriadHelpers.m in Sources */,
@@ -341,6 +345,7 @@
 				1525862519BC5F4A005B83D7 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
