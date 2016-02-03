@@ -18,6 +18,7 @@
                 <outlet property="tfDureeIntervention" destination="xai-gh-HQ9" id="kSc-hA-jia"/>
                 <outlet property="tfNomClient" destination="ThZ-se-RX2" id="E3E-Jx-Qv5"/>
                 <outlet property="tfNumeroDeFacture" destination="8RX-2F-SxE" id="Qmr-lq-42Y"/>
+                <outlet property="tfPrixHoraire" destination="Ipg-pS-FJQ" id="0b1-3w-iO7"/>
                 <outlet property="tfTypeIntervention" destination="MVo-T4-IGE" id="sti-PS-xoU"/>
                 <outlet property="window" destination="QvC-M9-y7g" id="87A-xe-hzx"/>
             </connections>
@@ -694,25 +695,17 @@ DQ
                             <action selector="clickButton:" target="Voe-Tx-rLC" id="nqU-I7-XxI"/>
                         </connections>
                     </button>
-                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="75J-D8-YYZ">
-                        <rect key="frame" x="341" y="26" width="132" height="17"/>
+                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="75J-D8-YYZ">
+                        <rect key="frame" x="358" y="26" width="132" height="17"/>
                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Numéro de facture :" id="XC2-78-V39">
                             <font key="font" metaFont="system"/>
                             <color key="textColor" name="disabledControlTextColor" catalog="System" colorSpace="catalog"/>
                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
                     </textField>
-                    <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="8RX-2F-SxE">
-                        <rect key="frame" x="472" y="21" width="48" height="22"/>
-                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" state="on" alignment="right" id="GC0-rF-WNE">
-                            <font key="font" metaFont="system"/>
-                            <color key="textColor" name="disabledControlTextColor" catalog="System" colorSpace="catalog"/>
-                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                        </textFieldCell>
-                    </textField>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="SXi-qb-CMb">
                         <rect key="frame" x="23" y="302" width="318" height="17"/>
-                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Facture © 2015 Bruno Boissonnet - BInfoService" id="9BR-sL-BzC">
+                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Facture © 2016 Bruno Boissonnet - BInfoService" id="9BR-sL-BzC">
                             <font key="font" metaFont="system"/>
                             <color key="textColor" name="disabledControlTextColor" catalog="System" colorSpace="catalog"/>
                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
@@ -819,13 +812,51 @@ DQ
                     </box>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="k5F-tN-jff">
                         <rect key="frame" x="472" y="302" width="103" height="17"/>
-                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Version : 1.1.1" id="BnJ-Rn-ZS2">
+                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Version : 1.1.2" id="BnJ-Rn-ZS2">
                             <font key="font" metaFont="system"/>
                             <color key="textColor" name="disabledControlTextColor" catalog="System" colorSpace="catalog"/>
                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
                     </textField>
+                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="J2q-zH-H4w">
+                        <rect key="frame" x="35" y="24" width="86" height="17"/>
+                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Prix horaire :" id="G0K-2v-0BP">
+                            <font key="font" metaFont="system"/>
+                            <color key="textColor" name="disabledControlTextColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
+                    <textField verticalHuggingPriority="750" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Ipg-pS-FJQ">
+                        <rect key="frame" x="121" y="21" width="48" height="22"/>
+                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" state="on" alignment="right" id="buM-me-2Lx">
+                            <font key="font" metaFont="system"/>
+                            <color key="textColor" name="disabledControlTextColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
+                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="NKd-SQ-4ty">
+                        <rect key="frame" x="169" y="24" width="36" height="17"/>
+                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="€/h" id="4g7-r6-jvl">
+                            <font key="font" metaFont="system"/>
+                            <color key="textColor" name="disabledControlTextColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
+                    <textField verticalHuggingPriority="750" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="8RX-2F-SxE">
+                        <rect key="frame" x="494" y="21" width="48" height="22"/>
+                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" state="on" alignment="right" id="GC0-rF-WNE">
+                            <font key="font" metaFont="system"/>
+                            <color key="textColor" name="disabledControlTextColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
                 </subviews>
+                <constraints>
+                    <constraint firstItem="Ipg-pS-FJQ" firstAttribute="bottom" secondItem="8RX-2F-SxE" secondAttribute="bottom" id="GDG-jU-GzF"/>
+                    <constraint firstItem="Ipg-pS-FJQ" firstAttribute="bottom" secondItem="J2q-zH-H4w" secondAttribute="bottom" id="QPI-f3-zcg"/>
+                    <constraint firstItem="Ipg-pS-FJQ" firstAttribute="bottom" secondItem="75J-D8-YYZ" secondAttribute="bottom" id="b2E-8D-Hkx"/>
+                    <constraint firstItem="Ipg-pS-FJQ" firstAttribute="bottom" secondItem="NKd-SQ-4ty" secondAttribute="bottom" id="dW3-sO-OW5"/>
+                </constraints>
             </view>
             <connections>
                 <outlet property="delegate" destination="Voe-Tx-rLC" id="7JY-b2-uye"/>

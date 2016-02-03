@@ -16,6 +16,8 @@ script AppDelegate
     
     ----------------------------------------------------------------------------
     
+    -- Prix horaire
+    property prixHoraire                     :  25.0
     -- dossier contenant le modèle excel
     property cheminFichierModeleFactureExcel :  "/Users/bruno/Documents/binfoservice/Modele_Facture_v0_5.xltx"
     -- dossier d'archivage des factures
@@ -67,12 +69,13 @@ Bruno.
     
     -- Variables de l'interface graphique
     -- IBOutlets
-    property window : missing value
-    property datePicker : missing value
-    property tfNomClient : missing value
-    property tfTypeIntervention : missing value
+    property window              : missing value
+    property datePicker          : missing value
+    property tfNomClient         : missing value
+    property tfTypeIntervention  : missing value
     property tfDureeIntervention : missing value
-    property tfNumeroDeFacture : missing value
+    property tfNumeroDeFacture   : missing value
+    property tfPrixHoraire       : missing value
     
     -- Variables nécessaire au fonctionnement du programme
     -- Autres propriétés du script
@@ -178,6 +181,8 @@ Bruno.
         datePicker's setDateAS:(current date)
         
         tfNumeroDeFacture's setStringValue_(numeroFacture)
+        
+        tfPrixHoraire's setStringValue_(prixHoraire)
         
         my logToFileAndToConsole("<---- Initialisation des variables")
         
@@ -467,7 +472,7 @@ Bruno.
                 set value of cell "C21" to dureeIntervention
                 
                 -- Mise à jour du coût de l'intervention
-                set value of cell "D21" to dureeIntervention * 20.0
+                set value of cell "D21" to dureeIntervention * prixHoraire
                 
             end tell --worksheet "Sheet1" of active workbook
             
