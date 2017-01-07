@@ -55,7 +55,7 @@ Bruno.
     
     -- Dossier temporaire où va être enregistrée la facture avant d'être envoyée au client.
     -- ATTENTION ! Chemin au format HFS car Excel ne comprend pas le POSIX.
-    property cheminDossierTempFacture :         "Macintosh HD:Users:bruno:Desktop:"
+    property cheminDossierTempFacture :         "Macintosh HD:Users:bruno:Desktop:_"
     
     
     
@@ -69,7 +69,7 @@ Bruno.
     
     -- Variables de l'interface graphique
     -- IBOutlets
-    property window              : missing value
+    property theWindow              : missing value
     property datePicker          : missing value
     property tfNomClient         : missing value
     property tfTypeIntervention  : missing value
@@ -178,7 +178,8 @@ Bruno.
         --set thisDate to current date
         --my logToFileAndToConsole("Date du jour : " & (thisDate as text))
         --datePicker's setDateAS:thisDate
-        datePicker's setDateAS:(current date)
+        --datePicker's setDateAS(current date)
+        datePicker's setDateValue_(current date)
         
         tfNumeroDeFacture's setStringValue_(numeroFacture)
         

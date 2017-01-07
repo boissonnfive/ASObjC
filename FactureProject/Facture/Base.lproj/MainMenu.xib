@@ -1,8 +1,10 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="6254" systemVersion="13F34" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="11762" systemVersion="16C67" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="6254"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="11762"/>
+        <capability name="box content view" minToolsVersion="7.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="NSApplication">
@@ -14,13 +16,13 @@
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
         <customObject id="Voe-Tx-rLC" customClass="AppDelegate">
             <connections>
-                <outlet property="datePicker" destination="qFx-4M-dtb" id="Mxv-7O-9Ua"/>
+                <outlet property="datePicker" destination="qFx-4M-dtb" id="Bqf-eI-KaO"/>
                 <outlet property="tfDureeIntervention" destination="xai-gh-HQ9" id="kSc-hA-jia"/>
                 <outlet property="tfNomClient" destination="ThZ-se-RX2" id="E3E-Jx-Qv5"/>
                 <outlet property="tfNumeroDeFacture" destination="8RX-2F-SxE" id="Qmr-lq-42Y"/>
                 <outlet property="tfPrixHoraire" destination="Ipg-pS-FJQ" id="0b1-3w-iO7"/>
                 <outlet property="tfTypeIntervention" destination="MVo-T4-IGE" id="sti-PS-xoU"/>
-                <outlet property="window" destination="QvC-M9-y7g" id="87A-xe-hzx"/>
+                <outlet property="theWindow" destination="QvC-M9-y7g" id="Jgc-XZ-l63"/>
             </connections>
         </customObject>
         <customObject id="YLy-65-1bz" customClass="NSFontManager"/>
@@ -643,8 +645,8 @@
                                     <action selector="performMiniaturize:" target="-1" id="VwT-WD-YPe"/>
                                 </connections>
                             </menuItem>
-                            <menuItem title="Zoom" id="R4o-n2-Eq4">
-                                <modifierMask key="keyEquivalentModifierMask"/>
+                            <menuItem title="Zoom" keyEquivalent="=" id="R4o-n2-Eq4">
+                                <modifierMask key="keyEquivalentModifierMask" control="YES" command="YES"/>
                                 <connections>
                                     <action selector="performZoom:" target="-1" id="DIl-cC-cCs"/>
                                 </connections>
@@ -676,14 +678,15 @@
         <window title="Facture" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" showsToolbarButton="NO" animationBehavior="default" id="QvC-M9-y7g">
             <windowStyleMask key="styleMask" titled="YES" closable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
-            <rect key="contentRect" x="335" y="390" width="597" height="339"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="1920" height="1178"/>
+            <rect key="contentRect" x="335" y="390" width="597" height="317"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="1280" height="777"/>
             <view key="contentView" id="EiT-Mj-1SZ">
-                <rect key="frame" x="0.0" y="0.0" width="597" height="339"/>
+                <rect key="frame" x="0.0" y="0.0" width="597" height="317"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="N93-Q5-m1c">
-                        <rect key="frame" x="237" y="17" width="92" height="32"/>
+                        <rect key="frame" x="252" y="14" width="92" height="32"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="push" title="Facturer" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Scn-Ub-t9F">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" metaFont="system"/>
@@ -695,34 +698,40 @@ DQ
                             <action selector="clickButton:" target="Voe-Tx-rLC" id="nqU-I7-XxI"/>
                         </connections>
                     </button>
-                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="75J-D8-YYZ">
-                        <rect key="frame" x="358" y="26" width="132" height="17"/>
-                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Numéro de facture :" id="XC2-78-V39">
-                            <font key="font" metaFont="system"/>
-                            <color key="textColor" name="disabledControlTextColor" catalog="System" colorSpace="catalog"/>
-                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                        </textFieldCell>
-                    </textField>
-                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="SXi-qb-CMb">
-                        <rect key="frame" x="23" y="302" width="318" height="17"/>
+                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="SXi-qb-CMb">
+                        <rect key="frame" x="18" y="280" width="318" height="17"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="314" id="MZL-5f-3bJ"/>
+                            <constraint firstAttribute="height" constant="17" id="bfI-rB-Dzm"/>
+                        </constraints>
                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Facture © 2016 Bruno Boissonnet - BInfoService" id="9BR-sL-BzC">
                             <font key="font" metaFont="system"/>
                             <color key="textColor" name="disabledControlTextColor" catalog="System" colorSpace="catalog"/>
                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
                     </textField>
-                    <box autoresizesSubviews="NO" fixedFrame="YES" borderType="line" translatesAutoresizingMaskIntoConstraints="NO" id="ksm-4r-GdS">
-                        <rect key="frame" x="17" y="59" width="563" height="235"/>
-                        <view key="contentView">
+                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="k5F-tN-jff">
+                        <rect key="frame" x="476" y="280" width="103" height="17"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Version : 1.2.1" id="BnJ-Rn-ZS2">
+                            <font key="font" metaFont="system"/>
+                            <color key="textColor" name="disabledControlTextColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
+                    <box autoresizesSubviews="NO" borderType="line" translatesAutoresizingMaskIntoConstraints="NO" id="ksm-4r-GdS">
+                        <rect key="frame" x="17" y="46" width="563" height="235"/>
+                        <view key="contentView" id="sNG-vW-xlc">
                             <rect key="frame" x="1" y="1" width="561" height="219"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
                                 <datePicker verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="qFx-4M-dtb">
                                     <rect key="frame" x="18" y="33" width="139" height="148"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                     <datePickerCell key="cell" borderStyle="bezel" alignment="left" datePickerStyle="clockAndCalendar" id="AAE-YB-K0f">
                                         <font key="font" metaFont="system"/>
                                         <calendarDate key="date" timeIntervalSinceReferenceDate="-595929600" calendarFormat="%Y-%m-%d %H:%M:%S %z">
-                                            <!--1982-02-12 16:00:00 +0000-->
+                                            <!--1982-02-12 08:00:00 -0800-->
                                             <timeZone key="timeZone" name="US/Pacific"/>
                                         </calendarDate>
                                         <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -734,6 +743,7 @@ DQ
                                 </datePicker>
                                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="sGP-fF-T5g">
                                     <rect key="frame" x="227" y="185" width="101" height="17"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Nom du client :" id="te3-4r-pd8">
                                         <font key="font" metaFont="system"/>
                                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -742,6 +752,7 @@ DQ
                                 </textField>
                                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Mnq-AF-ZIR">
                                     <rect key="frame" x="16" y="185" width="148" height="17"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Date de l'intervention :" id="grq-f2-Crx">
                                         <font key="font" metaFont="system"/>
                                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -750,6 +761,7 @@ DQ
                                 </textField>
                                 <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ThZ-se-RX2">
                                     <rect key="frame" x="340" y="182" width="203" height="22"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" alignment="right" title="ex: Boissonnet" drawsBackground="YES" id="e7b-Mv-eN9">
                                         <font key="font" metaFont="system"/>
                                         <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
@@ -761,6 +773,7 @@ DQ
                                 </textField>
                                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ZOL-LC-P6c">
                                     <rect key="frame" x="194" y="141" width="134" height="17"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Type d'intervention :" id="Lbw-Vo-a8i">
                                         <font key="font" metaFont="system"/>
                                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -769,6 +782,7 @@ DQ
                                 </textField>
                                 <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="MVo-T4-IGE">
                                     <rect key="frame" x="340" y="73" width="203" height="90"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                     <textFieldCell key="cell" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" title="Réparation Assistance à domicile Formation" drawsBackground="YES" id="eVM-TJ-NXL">
                                         <font key="font" metaFont="system"/>
                                         <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
@@ -780,6 +794,7 @@ DQ
                                 </textField>
                                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Mvn-XP-yjc">
                                     <rect key="frame" x="186" y="36" width="142" height="17"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Durée d'intervention :" id="RFC-no-1qr">
                                         <font key="font" metaFont="system"/>
                                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -788,6 +803,7 @@ DQ
                                 </textField>
                                 <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="xai-gh-HQ9">
                                     <rect key="frame" x="340" y="33" width="144" height="22"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" alignment="right" drawsBackground="YES" id="syR-zz-08z">
                                         <font key="font" metaFont="system"/>
                                         <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
@@ -799,6 +815,7 @@ DQ
                                 </textField>
                                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="hLH-wk-qvC">
                                     <rect key="frame" x="490" y="36" width="55" height="17"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="heure(s)" id="sMr-VW-JQI">
                                         <font key="font" metaFont="system"/>
                                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -807,61 +824,66 @@ DQ
                                 </textField>
                             </subviews>
                         </view>
-                        <color key="borderColor" white="0.0" alpha="0.41999999999999998" colorSpace="calibratedWhite"/>
-                        <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="557" id="0YR-u1-uFr"/>
+                            <constraint firstAttribute="height" constant="231" id="0vl-GX-rTH"/>
+                        </constraints>
                     </box>
-                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="k5F-tN-jff">
-                        <rect key="frame" x="472" y="302" width="103" height="17"/>
-                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Version : 1.1.2" id="BnJ-Rn-ZS2">
-                            <font key="font" metaFont="system"/>
-                            <color key="textColor" name="disabledControlTextColor" catalog="System" colorSpace="catalog"/>
-                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                        </textFieldCell>
-                    </textField>
-                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="J2q-zH-H4w">
-                        <rect key="frame" x="35" y="24" width="86" height="17"/>
+                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="J2q-zH-H4w">
+                        <rect key="frame" x="18" y="25" width="86" height="17"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Prix horaire :" id="G0K-2v-0BP">
                             <font key="font" metaFont="system"/>
                             <color key="textColor" name="disabledControlTextColor" catalog="System" colorSpace="catalog"/>
                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
                     </textField>
-                    <textField verticalHuggingPriority="750" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Ipg-pS-FJQ">
-                        <rect key="frame" x="121" y="21" width="48" height="22"/>
-                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" state="on" alignment="right" id="buM-me-2Lx">
+                    <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Ipg-pS-FJQ">
+                        <rect key="frame" x="97" y="20" width="23" height="22"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" state="on" alignment="right" placeholderString="00" id="buM-me-2Lx">
                             <font key="font" metaFont="system"/>
                             <color key="textColor" name="disabledControlTextColor" catalog="System" colorSpace="catalog"/>
                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
                     </textField>
-                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="NKd-SQ-4ty">
-                        <rect key="frame" x="169" y="24" width="36" height="17"/>
+                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="NKd-SQ-4ty">
+                        <rect key="frame" x="122" y="25" width="36" height="17"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="€/h" id="4g7-r6-jvl">
                             <font key="font" metaFont="system"/>
                             <color key="textColor" name="disabledControlTextColor" catalog="System" colorSpace="catalog"/>
                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
                     </textField>
-                    <textField verticalHuggingPriority="750" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="8RX-2F-SxE">
-                        <rect key="frame" x="494" y="21" width="48" height="22"/>
-                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" state="on" alignment="right" id="GC0-rF-WNE">
+                    <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="8RX-2F-SxE">
+                        <rect key="frame" x="544" y="20" width="29" height="22"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" state="on" alignment="right" placeholderString="000" id="GC0-rF-WNE">
                             <font key="font" metaFont="system"/>
                             <color key="textColor" name="disabledControlTextColor" catalog="System" colorSpace="catalog"/>
                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
                     </textField>
+                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="75J-D8-YYZ">
+                        <rect key="frame" x="418" y="25" width="132" height="17"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Numéro de facture :" id="XC2-78-V39">
+                            <font key="font" metaFont="system"/>
+                            <color key="textColor" name="disabledControlTextColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
                 </subviews>
                 <constraints>
-                    <constraint firstItem="Ipg-pS-FJQ" firstAttribute="bottom" secondItem="8RX-2F-SxE" secondAttribute="bottom" id="GDG-jU-GzF"/>
-                    <constraint firstItem="Ipg-pS-FJQ" firstAttribute="bottom" secondItem="J2q-zH-H4w" secondAttribute="bottom" id="QPI-f3-zcg"/>
-                    <constraint firstItem="Ipg-pS-FJQ" firstAttribute="bottom" secondItem="75J-D8-YYZ" secondAttribute="bottom" id="b2E-8D-Hkx"/>
-                    <constraint firstItem="Ipg-pS-FJQ" firstAttribute="bottom" secondItem="NKd-SQ-4ty" secondAttribute="bottom" id="dW3-sO-OW5"/>
+                    <constraint firstItem="SXi-qb-CMb" firstAttribute="top" secondItem="EiT-Mj-1SZ" secondAttribute="top" constant="20" id="9Ac-9m-ErB"/>
+                    <constraint firstItem="SXi-qb-CMb" firstAttribute="leading" secondItem="EiT-Mj-1SZ" secondAttribute="leading" constant="20" id="JLk-it-V4w"/>
+                    <constraint firstItem="ksm-4r-GdS" firstAttribute="leading" secondItem="EiT-Mj-1SZ" secondAttribute="leading" constant="20" id="TvU-Pr-yOT"/>
+                    <constraint firstAttribute="trailing" secondItem="ksm-4r-GdS" secondAttribute="trailing" constant="20" id="VbC-vk-gq6"/>
+                    <constraint firstItem="ksm-4r-GdS" firstAttribute="top" secondItem="EiT-Mj-1SZ" secondAttribute="top" constant="36" id="znE-iA-kSM"/>
                 </constraints>
             </view>
-            <connections>
-                <outlet property="delegate" destination="Voe-Tx-rLC" id="7JY-b2-uye"/>
-            </connections>
-            <point key="canvasLocation" x="250.5" y="84.5"/>
+            <point key="canvasLocation" x="250.5" y="73.5"/>
         </window>
         <userDefaultsController representsSharedInstance="YES" id="CDp-vY-4h1"/>
     </objects>

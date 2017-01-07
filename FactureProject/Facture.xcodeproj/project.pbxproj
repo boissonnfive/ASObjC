@@ -18,8 +18,6 @@
 		1525862A19BC5FA1005B83D7 /* NSAlert+MyriadHelpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 1525862619BC5FA1005B83D7 /* NSAlert+MyriadHelpers.m */; };
 		1525862B19BC5FA1005B83D7 /* ObjectWithFords.m in Sources */ = {isa = PBXBuildFile; fileRef = 1525862719BC5FA1005B83D7 /* ObjectWithFords.m */; };
 		1525862E19BC62D4005B83D7 /* NSDatePicker+MyriadHelpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 1525862D19BC62D4005B83D7 /* NSDatePicker+MyriadHelpers.m */; };
-		155FBA8C1C629C78001E96AC /* ReleaseNotes.md in Sources */ = {isa = PBXBuildFile; fileRef = 155FBA8B1C629C78001E96AC /* ReleaseNotes.md */; };
-		1576A8411BAFF03F000A5E61 /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = 1576A8401BAFF03F000A5E61 /* README.md */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -154,7 +152,7 @@
 		152585FB19BC5F4A005B83D7 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0510;
+				LastUpgradeCheck = 0820;
 				ORGANIZATIONNAME = BInfoService;
 			};
 			buildConfigurationList = 152585FE19BC5F4A005B83D7 /* Build configuration list for PBXProject "Facture" */;
@@ -194,12 +192,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1576A8411BAFF03F000A5E61 /* README.md in Sources */,
 				1525861B19BC5F4A005B83D7 /* AppDelegate.applescript in Sources */,
 				1525862B19BC5FA1005B83D7 /* ObjectWithFords.m in Sources */,
 				1525862E19BC62D4005B83D7 /* NSDatePicker+MyriadHelpers.m in Sources */,
 				1525862A19BC5FA1005B83D7 /* NSAlert+MyriadHelpers.m in Sources */,
-				155FBA8C1C629C78001E96AC /* ReleaseNotes.md in Sources */,
 				1525861519BC5F4A005B83D7 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -247,13 +243,19 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
@@ -266,7 +268,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
 			};
@@ -285,21 +287,26 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				SDKROOT = macosx;
 			};
 			name = Release;
@@ -312,6 +319,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Facture/Facture-Prefix.pch";
 				INFOPLIST_FILE = "Facture/Facture-Info.plist";
+				PRODUCT_BUNDLE_IDENTIFIER = "fr.binfoservice.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -325,6 +333,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Facture/Facture-Prefix.pch";
 				INFOPLIST_FILE = "Facture/Facture-Info.plist";
+				PRODUCT_BUNDLE_IDENTIFIER = "fr.binfoservice.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
