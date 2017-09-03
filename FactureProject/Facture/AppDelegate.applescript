@@ -21,22 +21,13 @@ script AppDelegate
     -- dossier contenant le modèle excel
     property cheminFichierModeleFactureExcel :  "/Users/bruno/Documents/binfoservice/Modele_Facture_v0_5.xltx"
     -- dossier d'archivage des factures
-    property cheminDossierFactures :            "Macintosh HD:Users:bruno:Documents:binfoservice:Factures:"
+    property cheminDossierFactures           :  "Macintosh HD:Users:bruno:Documents:binfoservice:Factures:"
     -- mail
-    property monAdresseCourrier :               "binfoservice@gmail.com"
-    property maSignature :                      "Signature nº1"
-    property monSujet :                         "Facture BInfoService"
-    property contenuMessage1 :                  "Bonjour,
-
-veuillez trouver ci-jointe la facture de l'intervention du "
-    property contenuMessage2 :                      ".
-
-Cordialement.
-Bruno.
-
----
-
-"
+    property monAdresseCourrier              : "binfoservice@gmail.com"
+    property maSignature                     : "Signature nº1"
+    property monSujet                        : "Facture BInfoService"
+    property contenuMessage1                 : "Bonjour,\n\nveuillez trouver ci-jointe la facture de l'intervention du "
+    property contenuMessage2                 : ".\n\nCordialement.\nBruno.\n\n---\n\n"
 
     ----------------------------------------------------------------------------
     
@@ -69,7 +60,7 @@ Bruno.
     
     -- Variables de l'interface graphique
     -- IBOutlets
-    property theWindow              : missing value
+    property theWindow           : missing value
     property datePicker          : missing value
     property tfNomClient         : missing value
     property tfTypeIntervention  : missing value
@@ -94,119 +85,43 @@ Bruno.
 
 
     ----------------------------------------------------------------------------
-    
-    --                      applicationWillFinishLaunching
-    
+
+    --                     MÉTHODES DE LA FENÊTRE "window"
+
     ----------------------------------------------------------------------------
-	
-    (*
-     applicationWillFinishLaunching :   Fonction appelée juste avant que la
-                                        fenêtre n'apparaîsse à l'écran.
-                                        Utile pour initialiser les variables.
-     aNotification                  :   ???.
-    *)
     
-	on applicationWillFinishLaunching_(aNotification)
+    (*
+     
+     --------------------  applicationWillFinishLaunching  -----------------------
+     
+     Fonction appelée juste avant que la fenêtre n'apparaîsse à l'écran.
+     Utile pour initialiser les variables.
+     
+     *)
+
+    on applicationWillFinishLaunching:aNotification
 		-- Insert code here to initialize your application before any files are opened
         
         set referenceVersFichierLog to open for access fichierLog with write permission
         
-        my logToFileAndToConsole("\n---------- Début du programme ------------\n")
+        my logToFileAndToConsole("---------- Début du programme ------------")
         
+        my initialisationVariables()
+        my initialisationInterface()
         
-        -- Initialisation des variables du programme ---------------------------
-        
-        my logToFileAndToConsole("----> Initialisation des variables")
-        
-        
-        (* numeroFacture : récupéré à partir du numéro de fichier de la dernière facture *)
-        
-        -- set dossierFacturesAlias to (POSIX file chemindossierFactures) as alias
-        set dossierFacturesAlias to cheminDossierFactures as alias
-        set numeroFacture to my getNumeroFacture(dossierFacturesAlias)
-        my logToFileAndToConsole("Numéro : " & numeroFacture)
-        
-        
-        (* nomFichierFacture : nom du fichier facture de la forme "Facture_000X.pdf" *)
-        
-        set nomFichierFacture to prefixNomFichierFacture & (numeroFacture as text) & extensionFichierFacture
-        my logToFileAndToConsole("Nom du fichier : " & nomFichierFacture)
-        
-        
-        (* cheminFichierTempFacture : Chemin vers le dossier temporaire de stockage de la facture *)
-        
-        set cheminFichierTempFacture to cheminDossierTempFacture & space & nomFichierFacture
-        my logToFileAndToConsole("Chemin temporaire : " & (POSIX path of cheminFichierTempFacture) as text)
-        
-        
-        (* cheminFactureFinal : Chemin vers le dossier final de stockage de la facture *)
-        
-        set cheminFactureFinal to cheminDossierFactures & nomFichierFacture
-        my logToFileAndToConsole("Chemin final : " & (POSIX path of cheminFactureFinal) as text)
-        
-        (* contenuMessage1 et contenuMessage2 : contenu du message à envoyer au client *)
-        
-        -- ATTENTION ! Il ne faut pas de tabulations ou d'espaces dans le texte.
-        -- Attention lors de l'indentation du code.
-        (*
-        set contenuMessage1 to "Bonjour,
-
-veuillez trouver ci-jointe la facture de l'intervention du "
-         *)
-        my logToFileAndToConsole("Contenu du message (1ére partie ) : \n" & contenuMessage1)
-        (*
-        set contenuMessage2 to ".
-
-Cordialement.
-Bruno.
-
----
-
-"
-         *)
-        my logToFileAndToConsole("Contenu du message (2ème partie ) : \n" & contenuMessage2)
-        
-        (* dateDuJourCourte : Date du jour au format JJ/MM/AAAA *)
-        
-        --set dateDuJourCourte to short date string of (current date) -- format JJ/MM/AAAA
-        --my logToFileAndToConsole("Date du jour (forme JJ/MM/AA) : " & dateDuJourCourte)
-        
-        -- Initialisation de l'interface du programme ---------------------------
-        
-        (* Initialise le calendrier de l'interface avec la date du jour *)
-        
-        --set thisDate to current date
-        --my logToFileAndToConsole("Date du jour : " & (thisDate as text))
-        --datePicker's setDateAS:thisDate
-        --datePicker's setDateAS(current date)
-        datePicker's setDateValue_(current date)
-        
-        tfNumeroDeFacture's setStringValue_(numeroFacture)
-        
-        tfPrixHoraire's setStringValue_(prixHoraire)
-        
-        my logToFileAndToConsole("<---- Initialisation des variables")
-        
-	end applicationWillFinishLaunching_
+    end applicationWillFinishLaunching:
     
     
-    
-	
-    
-    ----------------------------------------------------------------------------
-    
-    --                      applicationShouldTerminate
-    
-    ----------------------------------------------------------------------------
-
     (*
-     applicationShouldTerminate :   Fonction appelée juste avant que le programme
-                                    se termine. Utile pour fermer des fichiers et
-                                    tout mettre en forme une dernière fois.
-     sender                     :   ???.
+     
+     ---------------------  applicationShouldTerminate  ------------------------
+     
+     Fonction appelée juste avant que le programme se termine.
+     Utile pour fermer des fichiers et tout mettre en forme une dernière fois.
+     
      *)
 
-	on applicationShouldTerminate_(sender)
+    on applicationShouldTerminate:sender
         
 		-- Insert code here to do any housekeeping before your application quits
         my logToFileAndToConsole("\n----------- Fin du programme -------------\n")
@@ -215,9 +130,24 @@ Bruno.
         
 		return current application's NSTerminateNow
         
-	end applicationShouldTerminate_
+    end applicationShouldTerminate:
     
+    (*
+     
+     ------------  applicationShouldTerminateAfterLastWindowClosed  -------------
+     
+     Fonction à redéfinir si on veut que le programme se termine quand on
+     clique sur le bouton de fermeture de la fenêtre.
+     
+     nsApplication : Application.
+     
+     *)
     
+    on applicationShouldTerminateAfterLastWindowClosed:nsApplication
+        
+        tell nsApplication to terminate:me
+        
+    end applicationShouldTerminateAfterLastWindowClosed:
     
     
     ----------------------------------------------------------------------------
@@ -373,7 +303,13 @@ Bruno.
             try
                 set adresseClient to first item of address of ficheClient
                 tell adresseClient
-                    set adresseClientFormatee to street & space & zip & space & city
+                    
+                    -- gère les cas où il manque qqch dans l'adresse
+                    if  (street is missing value) then
+                        set adresseClientFormatee to zip & space & city
+                    else
+                        set adresseClientFormatee to street & space & zip & space & city
+                    end if
                 end tell
                 
                 tell current application to my logToFileAndToConsole("Adresse du client : " & adresseClientFormatee)
@@ -625,6 +561,96 @@ Bruno.
         
     end clickButton_
     
+   
+   
+   ----------------------------------------------------------------------------
+    
+    --                           AUTRES MÉTHODES
+    
+    ----------------------------------------------------------------------------
+    
+    
+    
+    (*
+     
+     ---------------------  initialisationVariables  ------------------------
+     
+     Initialisation des variables du programme.
+     
+     *)
+    
+    on initialisationVariables()
+        
+        -- Initialisation des variables du programme ---------------------------
+        
+        my logToFileAndToConsole("----> Initialisation des variables")
+        
+        
+        -- numeroFacture : récupéré à partir du numéro de fichier de la dernière facture
+        
+        -- set dossierFacturesAlias to (POSIX file chemindossierFactures) as alias
+        set dossierFacturesAlias to cheminDossierFactures as alias
+        set numeroFacture to my getNumeroFacture(dossierFacturesAlias)
+        my logToFileAndToConsole("Numéro : " & numeroFacture)
+        
+        
+        -- nomFichierFacture : nom du fichier facture de la forme "Facture_000X.pdf"
+        
+        set nomFichierFacture to prefixNomFichierFacture & (numeroFacture as text) & extensionFichierFacture
+        my logToFileAndToConsole("Nom du fichier : " & nomFichierFacture)
+        
+        
+        -- cheminFichierTempFacture : Chemin vers le dossier temporaire de stockage de la facture
+        
+        set cheminFichierTempFacture to cheminDossierTempFacture & space & nomFichierFacture
+        my logToFileAndToConsole("Chemin temporaire : " & (POSIX path of cheminFichierTempFacture) as text)
+        
+        
+        -- cheminFactureFinal : Chemin vers le dossier final de stockage de la facture
+        
+        set cheminFactureFinal to cheminDossierFactures & nomFichierFacture
+        my logToFileAndToConsole("Chemin final : " & (POSIX path of cheminFactureFinal) as text)
+        
+        -- contenuMessage1 et contenuMessage2 : contenu du message à envoyer au client
+        my logToFileAndToConsole("Contenu du message (1ére partie ) : \n" & contenuMessage1)
+        my logToFileAndToConsole("Contenu du message (2ème partie ) : \n" & contenuMessage2)
+        
+        (* dateDuJourCourte : Date du jour au format JJ/MM/AAAA *)
+        
+        --set dateDuJourCourte to short date string of (current date) -- format JJ/MM/AAAA
+        --my logToFileAndToConsole("Date du jour (forme JJ/MM/AA) : " & dateDuJourCourte)
+        
+        
+        
+        my logToFileAndToConsole("<---- Initialisation des variables")
+        
+    end initialisationVariables
+    
+    (*
+     
+     ---------------------  initialisationInterface  ------------------------
+     
+     Initialisation de l'interface du programme.
+     
+     *)
+    
+    on initialisationInterface()
+        
+        -- Initialisation de l'interface du programme ---------------------------
+        
+        -- Initialise le calendrier de l'interface avec la date du jour
+        -- datePicker's setDateAS:(current date) -- Passage à 10.12
+        datePicker's setDateValue_(current date)
+        
+        -- Affiche le numéro de facture en cours
+        tfNumeroDeFacture's setStringValue:numeroFacture
+        --tfNumeroDeFacture's setStringValue_(numeroFacture)
+        
+        -- Affiche le prix horaire
+        tfPrixHoraire's setStringValue:prixHoraire
+        --tfPrixHoraire's setStringValue_(prixHoraire)
+        
+    end initialisationInterface
     
 
     ----------------------------------------------------------------------------
@@ -634,12 +660,13 @@ Bruno.
     ----------------------------------------------------------------------------
 
     -- shows modal alert
-	on showAlertModal:sender
+    on showAlertModal:sender
 		-- create an alert
 		set theAlert to current application's NSAlert's makeAlert:"An alert" buttons:{"Cancel", "OK"} |text|:"Further explanation"
 		theAlert's showModal() -- returns name of the button
 		log result
 	end showAlertModal:
+
     
     
     ----------------------------------------------------------------------------
@@ -750,30 +777,6 @@ Bruno.
         
         
     end getNumeroFacture
-    
-
-
-    ----------------------------------------------------------------------------
-    
-    --           applicationShouldTerminateAfterLastWindowClosed
-    
-    ----------------------------------------------------------------------------
-
-    (*
-     applicationShouldTerminateAfterLastWindowClosed : Fonction à redéfinir si
-                                                       on veut que le programme
-                                                       se termine quand on
-                                                       clique sur le bouton de
-                                                       fermeture de la fenêtre.
-     nsApplication                                   : Application.
-    *)
-
-    on applicationShouldTerminateAfterLastWindowClosed_(nsApplication)
-        
-        tell nsApplication to terminate_(me)
-        
-    end applicationShouldTerminateAfterLastWindowClosed
-    
 
 
 
