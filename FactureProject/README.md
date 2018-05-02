@@ -118,3 +118,35 @@ Le modèle de facture doit être formaté de la manière suivante (*):
 (*) : voir fichier inclus dans le projet : Modele_Facture_v0_5.xltx.
 
 
+### Contruire le projet
+
+
+### Changer le mode de Build en Release
+
+1. Ouvrir XCode
+2. Aller dans **Product > Scheme > Edit Scheme...**
+3. Dans la colonne de gauche, sélectionner **Run**
+4. Dans le panneau de droite, sélectionner l'onglet **Info**
+5. Dans la liste déroulante **Build configuration**, sélectionner **Release**
+6. Décocher **Debug executable**
+7. Cliquer sur le bouton **Close**
+
+
+### Créer une version "Release" du programme
+
+1. Aller dans **Product > Clean**
+2. Aller dans **Product > Build**
+
+
+### Créer un fichier .dmg
+
+1. Créer un dossier **Facture X.Y.Z** sur le bureau (avec X.Y.Z la dernière version du programme)
+2. Dans XCode, faire un clic droit sur **Facture.app** dans la colonne de droite
+3. Sélectionner le menu **Show en Finder**
+4. Copier le fichier app **Facture** dans le dossier **Facture X.Y.Z**
+5. Copier un raccourci du dossier **Applications** dans le dossier **Facture X.Y.Z**
+6. Ouvrir l'**Utilitaire de disque**
+7. Aller dans **Fichier > Nouvelle image > Image d'un dossier...**
+8. Sélectionner le dossier **Facture X.Y.Z** sur le bureau
+
+
