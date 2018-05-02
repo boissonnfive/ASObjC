@@ -41,7 +41,7 @@ script AppDelegate
     property extensionFichierFacture :          ".pdf"
 
     -- Fichier de log.
-    property fichierLog :                       POSIX file "/Users/bruno/Desktop/log.txt"
+    property fichierLog              :          POSIX file "/Users/bruno/Desktop/log.txt"
     property referenceVersFichierLog :          ""
     
     -- Dossier temporaire où va être enregistrée la facture avant d'être envoyée au client.
@@ -70,19 +70,21 @@ script AppDelegate
     
     -- Variables nécessaire au fonctionnement du programme
     -- Autres propriétés du script
-    property numeroFacture :                    ""
-    property cheminFichierTempFacture :         ""
-    property nomFichierFacture :                ""
-    property cheminFactureFinal :               ""
-    property dossierFacturesAlias :             ""
-    --property dateDuJourCourte :                 ""
-    property adresseCourrierClient :            ""
-    property nomClient :                        ""
-    --property ficheClient :                      ""
-    property typeIntervention :                 ""
-    property dureeIntervention :                ""
-    property dateIntervention :                 ""
-
+    property numeroFacture            : ""
+    property cheminFichierTempFacture : ""
+    property nomFichierFacture        : ""
+    property cheminFactureFinal       : ""
+    property dossierFacturesAlias     : ""
+    -- Client
+    property adresseCourrierClient    : ""
+    property nomClient                : ""
+    property adresseFormateeClient    : ""
+    property formeJuridiqueClient     : ""
+    -- Intervention
+    property typeIntervention         : ""
+    property dureeIntervention        : ""
+    property dateIntervention         : ""
+    
 
     ----------------------------------------------------------------------------
 
@@ -90,41 +92,38 @@ script AppDelegate
 
     ----------------------------------------------------------------------------
     
-    (*
+    
+    
+    --------------------  applicationWillFinishLaunching  -----------------------
      
-     --------------------  applicationWillFinishLaunching  -----------------------
-     
-     Fonction appelée juste avant que la fenêtre n'apparaîsse à l'écran.
-     Utile pour initialiser les variables.
-     
-     *)
+    -- Fonction appelée juste avant que la fenêtre n'apparaisse à l'écran.
+    -- Utile pour initialiser les variables.
 
     on applicationWillFinishLaunching:aNotification
 		-- Insert code here to initialize your application before any files are opened
         
         set referenceVersFichierLog to open for access fichierLog with write permission
         
+        my logToFileAndToConsole("")
         my logToFileAndToConsole("---------- Début du programme ------------")
         
+        my recupParametres()
         my initialisationVariables()
         my initialisationInterface()
         
     end applicationWillFinishLaunching:
     
     
-    (*
+    ---------------------  applicationShouldTerminate  ------------------------
      
-     ---------------------  applicationShouldTerminate  ------------------------
-     
-     Fonction appelée juste avant que le programme se termine.
-     Utile pour fermer des fichiers et tout mettre en forme une dernière fois.
-     
-     *)
+    -- Fonction appelée juste avant que le programme se termine.
+    -- Utile pour fermer des fichiers et tout mettre en forme une dernière fois.
 
     on applicationShouldTerminate:sender
         
 		-- Insert code here to do any housekeeping before your application quits
-        my logToFileAndToConsole("\n----------- Fin du programme -------------\n")
+        my logToFileAndToConsole("----------- Fin du programme -------------")
+        my logToFileAndToConsole("")
         
         close access referenceVersFichierLog
         
@@ -132,16 +131,11 @@ script AppDelegate
         
     end applicationShouldTerminate:
     
-    (*
+    
+    ------------  applicationShouldTerminateAfterLastWindowClosed  -------------
      
-     ------------  applicationShouldTerminateAfterLastWindowClosed  -------------
-     
-     Fonction à redéfinir si on veut que le programme se termine quand on
-     clique sur le bouton de fermeture de la fenêtre.
-     
-     nsApplication : Application.
-     
-     *)
+    -- Fonction à redéfinir si on veut que le programme se termine quand on
+    -- clique sur le bouton de fermeture de la fenêtre.
     
     on applicationShouldTerminateAfterLastWindowClosed:nsApplication
         
@@ -150,27 +144,201 @@ script AppDelegate
     end applicationShouldTerminateAfterLastWindowClosed:
     
     
-    ----------------------------------------------------------------------------
-    
-    --                              clickButton
-    
-    ----------------------------------------------------------------------------
-    
-    
+    ---------------------  clickBtnFacturer  ------------------------
     (*
-     clickButton :   Fonction appelée lorsque l'on clique sur le bouton "Facturer".
-     sender      :   Le bouton "Facturer".
-     *)
+     clickBtnFacturer : Fonction appelée lorsque l'on clique sur le bouton "Facturer".
+     sender           : Le bouton "Facturer".
+    *)
     
-    on clickButton_(sender)
+    on clickBtnFacturer:sender
         
-        my logToFileAndToConsole("\n----> Nouvelle facture")
+        my logToFileAndToConsole("----> Nouvelle facture")
+        
+        -- Récupère les données utilisateurs entrées dans l'interface
+        my recupDonneesDeLUtilisateur()
+        
+        -- Récupère les informations du client dans l'application Contacts
+        my recupInfosClientDansContacts()
+        
+        -- Création de la facture dans Excel
+        my creerFactureDansExcel()
         
         
-        (***************************** Récupération des informations du client dans Contacts ********************************)
+        -- Renommage du fichier facture avec Finder
+        my renommeFichierFacture()
+        
+        
+        -- Envoi de la facture avec Mail
+        my envoieFactureAvecMail()
+        
+        
+        -- MAJ du numéro de facture et de l'interface        
+        my initialisationVariables()
+        my initialisationInterface()
+        
+        my logToFileAndToConsole("<---- Nouvelle facture\n")
+        
+    end clickBtnFacturer
+    
+   
+   
+   ----------------------------------------------------------------------------
+    
+    --                           AUTRES MÉTHODES
+    
+    ----------------------------------------------------------------------------
+    
+    
+    
+    ---------------------  recupParametres  ------------------------
+    
+    -- Récupération des paramètres du programme.
+    
+    on recupParametres()
+        
+        my logToFileAndToConsole("----> Récupération des paramètres")
+        
+        my logToFileAndToConsole("prixHoraire                      : " & prixHoraire)
+        my logToFileAndToConsole("cheminFichierModeleFactureExcel  : " & cheminFichierModeleFactureExcel)
+        my logToFileAndToConsole("cheminDossierFactures            : " & cheminDossierFactures)
+        my logToFileAndToConsole("monAdresseCourrier               : " & monAdresseCourrier)
+        my logToFileAndToConsole("maSignature                      : " & maSignature)
+        my logToFileAndToConsole("monSujet                         : " & monSujet)
+        my logToFileAndToConsole("contenuMessage1                  : " & contenuMessage1)
+        my logToFileAndToConsole("contenuMessage2                  : " & contenuMessage2)
+        my logToFileAndToConsole("prefixNomFichierFacture          : " & prefixNomFichierFacture)
+        my logToFileAndToConsole("extensionFichierFacture          : " & extensionFichierFacture)
+        my logToFileAndToConsole("fichierLog                       : " & fichierLog)
+        my logToFileAndToConsole("referenceVersFichierLog          : " & referenceVersFichierLog)
+        my logToFileAndToConsole("cheminDossierTempFacture         : " & cheminDossierTempFacture)
+        
+        my logToFileAndToConsole("<---- Récupération des paramètres")
+        
+    end recupParametres
+    
+    
+    ---------------------  initialisationVariables  ------------------------
+     
+    -- Initialisation des variables du programme.
+    
+    on initialisationVariables()
+        
+        my logToFileAndToConsole("----> Initialisation des variables")
+        
+        -- numeroFacture : récupéré à partir du numéro de fichier de la dernière facture
+        
+        -- set dossierFacturesAlias to (POSIX file chemindossierFactures) as alias
+        set dossierFacturesAlias to cheminDossierFactures as alias
+        set numeroFacture to my getNumeroFacture(dossierFacturesAlias)
+        my logToFileAndToConsole("Numéro de la facture        : " & numeroFacture)
+        
+        
+        -- nomFichierFacture : nom du fichier facture de la forme "Facture_000X.pdf"
+        
+        set nomFichierFacture to prefixNomFichierFacture & (numeroFacture as text) & extensionFichierFacture
+        my logToFileAndToConsole("Nom du fichier facture      : " & nomFichierFacture)
+        
+        
+        -- cheminFichierTempFacture : Chemin vers le dossier temporaire de stockage de la facture
+        
+        set cheminFichierTempFacture to cheminDossierTempFacture & space & nomFichierFacture
+        my logToFileAndToConsole("Chemin temporaire           : " & (POSIX path of cheminFichierTempFacture) as text)
+
+
+        -- cheminFactureFinal : Chemin vers le dossier final de stockage de la facture
+        
+        set cheminFactureFinal to cheminDossierFactures & nomFichierFacture
+        my logToFileAndToConsole("Chemin final                : " & (POSIX path of cheminFactureFinal) as text)
+
+
+        my logToFileAndToConsole("<---- Initialisation des variables")
+        
+    end initialisationVariables
+    
+    
+    
+    ---------------------  initialisationInterface  ------------------------
+     
+    -- Initialisation de l'interface du programme.
+    
+    on initialisationInterface()
+        
+        -- Initialise le calendrier de l'interface avec la date du jour
+        -- datePicker's setDateAS:(current date) -- Passage à 10.12
+        datePicker's setDateValue:(current date)
+        
+        -- Affiche le numéro de facture en cours
+        tfNumeroDeFacture's setStringValue:numeroFacture
+        --tfNumeroDeFacture's setStringValue_(numeroFacture)
+        
+        -- Affiche le prix horaire
+        tfPrixHoraire's setStringValue:prixHoraire
+        --tfPrixHoraire's setStringValue_(prixHoraire)
+        
+        -- Affiche un exemple de nom de client
+        tfNomClient's setStringValue:"ex: Boissonnet"
+        
+        tfTypeIntervention's setStringValue:"Réparation\nAssistance à domicile\nFormation"
+        tfDureeIntervention's setStringValue:""
+        
+    end initialisationInterface
+    
+    
+
+     ---------------------  dossierRessources  ------------------------
+ 
+     -- Renvoi le chemin du dossier Ressources de l'application
+     
+    
+    on dossierRessources()
+        
+        set pathToMe to ""
+        
+        tell current application's class "NSBundle"
+            tell its mainBundle()
+                set pathToMe to resourcePath() as string
+            end tell
+        end tell
+        
+        return pathToMe
+        
+    end dossierRessources
+
+
+    ---------------------  recupDonneesDeLUtilisateur  ------------------------
+ 
+    -- Récupère les données utilisateurs entrées dans l'interface
+ 
+    on recupDonneesDeLUtilisateur()
+        
+        my logToFileAndToConsole("")
         
         set nomClient to (tfNomClient's stringValue()) as text
-        my logToFileAndToConsole("Client recherché : " & nomClient)
+        my logToFileAndToConsole("Nom du Client à rechercher       : " & nomClient)
+        
+        set typeIntervention to (tfTypeIntervention's stringValue()) as text
+        my logToFileAndToConsole("Type d'intervention sélectionné  : " & typeIntervention)
+        
+        set dureeIntervention to (tfDureeIntervention's stringValue()) as text
+        my logToFileAndToConsole("Durée d'intervention entrée      : " & dureeIntervention)
+       
+        set dateIntervention to (datePicker's dateAS() as date)
+        my logToFileAndToConsole("Date d'intervention sélectionnée : " & (date string of dateIntervention) as text)
+        
+    end recupDonneesDeLUtilisateur
+
+
+
+    ---------------------  recupInfosClientDansContacts  ------------------------
+ 
+    -- Récupère les informations du client dans l'application Contacts
+    
+    on recupInfosClientDansContacts()
+        
+        my logToFileAndToConsole("")
+        
+        set nomClient to (tfNomClient's stringValue()) as text
+        my logToFileAndToConsole("Client recherché                 : " & nomClient)
         
         
         (* Cherche le client dans l'application « Contacts » *)
@@ -241,29 +409,29 @@ script AppDelegate
             (* Récupération du nom complet du client *)
             
             set nomClient to name of ficheClient
-            tell current application to my logToFileAndToConsole("Nom du client : " & nomClient)
+            tell current application to my logToFileAndToConsole("Nom du client                    : " & nomClient)
             
             
             (* Récupération de la forme juridique *)
             if company of ficheClient is true then
-                set formeJuridique to "Entreprise"
-            else
-                set formeJuridique to "Particulier"
+                set formeJuridiqueClient to "Entreprise"
+                else
+                set formeJuridiqueClient to "Particulier"
             end if
             
-            tell current application to my logToFileAndToConsole("Forme juridique du client : " & formeJuridique)
-            
+            tell current application to my logToFileAndToConsole("Forme juridique du client        : " & formeJuridiqueClient)
+
             
             (* Récupération de l'adresse mail à partir de la fiche client *)
             
             --repeat
-                
+            
             set contactEmail to emails of ficheClient
-                
+            
             if contactEmail ≠ {} then
-                    
-                    --exit repeat
-                    
+                
+                --exit repeat
+                
             else
                 
                 display dialog "Aucune adresse mèle renseignée pour le client \"" & nomClient & "\"." & ¬
@@ -271,9 +439,9 @@ script AppDelegate
                 "Veuillez compléter la fiche client et relancer le programme." & return & ¬
                 "Fin du programme." with title ¬
                 "Facture" buttons {"Terminer"} cancel button "Terminer" default button "Terminer"
-                    
-            end if
                 
+            end if
+            
             --end repeat
             
             if (count of contactEmail) > 1 then
@@ -290,13 +458,13 @@ script AppDelegate
                 --tell current application to my logToFileAndToConsole("Adresse mail principale du client : " & adresseCourrierClient)
                 
             else if (count of contactEmail) = 1 then
-            
+                
                 set adresseCourrierClient to value of first item of contactEmail
                 --tell current application to my logToFileAndToConsole("Adresse mail du client : " & adresseCourrierClient)
                 
             end if
             
-            tell current application to my logToFileAndToConsole("Adresse mail du client : " & adresseCourrierClient)
+            tell current application to my logToFileAndToConsole("Adresse mail du client           : " & adresseCourrierClient)
             
             (* Récupération de l'adresse à partir de la fiche client *)
             
@@ -306,16 +474,16 @@ script AppDelegate
                     
                     -- gère les cas où il manque qqch dans l'adresse
                     if  (street is missing value) then
-                        set adresseClientFormatee to zip & space & city
-                    else
-                        set adresseClientFormatee to street & space & zip & space & city
+                        set adresseFormateeClient to zip & space & city
+                        else
+                        set adresseFormateeClient to street & space & zip & space & city
                     end if
                 end tell
                 
-                tell current application to my logToFileAndToConsole("Adresse du client : " & adresseClientFormatee)
+                tell current application to my logToFileAndToConsole("Adresse formatée du client       : " & adresseFormateeClient)
                 
-            on error
-            
+                on error
+                
                 display dialog "Aucune adresse renseignée pour le client \"" & nomClient & "\"." & ¬
                 return & "Veuillez compléter la fiche client et relancer le programme." & return & ¬
                 "Fin du programme." with title ¬
@@ -328,52 +496,21 @@ script AppDelegate
             
         end tell -- application "Contacts"
         
-        -- display dialog nomClient
         
-        -- log "Nom du client : " & nomClient
-        -- log "Adresse mail du client : " & adresseCourrierClient
-        -- log "Adresse du client : " & adresseClientFormatee
-        
-        tfNomClient's setStringValue_(nomClient)
-        
-        --set theText to leTexte's stringValue()
-        --display alert "Vous avez écrit : " & theText
-        
-        --leTexte's setStringValue_("rien du tout")
-        --unAutreTexte's setStringValue_("que dalle, oui !")
+        -- MAJ de l'interface avec le nom complet du client
+        tfNomClient's setStringValue:nomClient
         
         
-        (************************ Récupération des données de l'intervention ********************)
-        
-        
-        (* Récupération du type d'intervention *)
-        
-        set typeIntervention to (tfTypeIntervention's stringValue()) as text
-        my logToFileAndToConsole("Le type d'intervention est : " & typeIntervention)
-        
-        
-        (* Récupération de la durée de l'intervention *)
-        
-        set dureeIntervention to (tfDureeIntervention's stringValue()) as text
-        my logToFileAndToConsole("La durée d'intervention est : " & dureeIntervention)
-        
-        
-        (* Récupération de la date de l'intervention *)
-        set dateIntervention to (datePicker's dateAS() as date)
-		my logToFileAndToConsole("La date de l'intervention est : " & dateIntervention as text)
-        
-        (*
-         
-         -- Si on est arrivé ici, c'est que l'on a toutes les données de l'intervention
-         display alert "Type d'intervention : " & typeIntervention & return & ¬
-         "Durée de l'intervention : " & dureeIntervention & return & ¬
-         "Date de l'intervention : " & dateIntervention
-         --return
-         
-         *)
-        
-        
-        (***************************** Création de la facture dans Excel ***************************)
+    end recupInfosClientDansContacts
+    
+    
+    
+    ---------------------  creerFactureDansExcel  ------------------------
+    
+    -- Crée un fichier excel à partir d'un modèle, le modifie en fonction des données entrées et l'enregistre en pdf sur le bureau.
+    -- Le fichier aura le nom: " Facture_00XXX.pdf" avec une espace devant ajoutée automatiquement par excel qui concatène le nom du fichier avec le nom de la feuille de calcul.
+    
+    on creerFactureDansExcel()
         
         
         (* Crée un fichier excel à partir d'un modèle, le modifie en fonction des données entrées et l'enregistre en pdf sur le bureau.
@@ -397,10 +534,10 @@ script AppDelegate
                 set value of cell "B14" to nomClient
                 
                 -- Mise à jour de l'adresse du client
-                set value of cell "B15" to adresseClientFormatee
+                set value of cell "B15" to adresseFormateeClient
                 
                 -- Mise à jour de la forme juridique du client
-                set value of cell "B16" to formeJuridique
+                set value of cell "B16" to formeJuridiqueClient
                 
                 -- Mise à jour du type d'intervention
                 set value of cell "A21" to typeIntervention
@@ -428,14 +565,17 @@ script AppDelegate
             
         end tell --application "Microsoft Excel"
         
+    
+    end creerFactureDansExcel
+    
+    
+    ---------------------  renommeFichierFacture  ------------------------
+    
+    -- On renome le fichier facture correctement (Impossible de le faire depuis Excel)
+    -- et on le déplace dans le dossier des factures.
+    
+    on renommeFichierFacture()
         
-        
-        (************************** Renommage du fichier facture avec Finder ************************)
-        
-        (*
-         On renome le fichier facture correctement (Impossible de le faire depuis Excel)
-         et on le déplace dans le dossier des factures.
-         *)
         tell application "Finder"
             
             --tell current application to my logToFileAndToConsole("Appel de l'application Finder.")
@@ -454,7 +594,7 @@ script AppDelegate
                 
                 --tell current application to my logToFileAndToConsole("Copie de " & cheminFichierTempFacture & " vers " & cheminDossierFactures & ".")
                 
-            on error
+                on error
                 display alert "Impossible de copier le fichier: " & ¬
                 cheminFichierTempFacture & return ¬
                 & "Un fichier portant le même nom existe peut-être déjà." & return ¬
@@ -463,20 +603,16 @@ script AppDelegate
             
         end tell
         
-        
-        
-        -- Transformation de la date dans le format : nomDuJour NuméroDuJour NomDuMois Année.
-        -- Exemple : lundi 29 septembre 2015
-        -- Pour utilisation dans le message à envoyer au client.
-        set dateInterventionFormatLong to my getDate(dateIntervention)
-        --my logToFileAndToConsole("Date de l'intervention au format long : " & dateInterventionFormatLong)
-        
-        
-        
-        (***************************** Envoi de la facture avec Mail ***************************)
+    end renommeFichierFacture
+    
+    
+    ---------------------  envoieFactureAvecMail  ------------------------
+    
+    -- Crée le message contenant la facture à envoyer au client.
+    
+    on envoieFactureAvecMail()
         
         (*
-         Crée le message contenant la facture à envoyer au client.
          Impossible d'ajouter la signature avant la pièce jointe,
          sinon elle est supprimée ou considérée comme du texte
          et non plus comme une signature (elle est même soulignée).
@@ -491,7 +627,7 @@ script AppDelegate
             
             --tell current application to my logToFileAndToConsole("Affichage de mail")
             
-            set contenuMessage to contenuMessage1 & dateInterventionFormatLong & contenuMessage2
+            set contenuMessage to contenuMessage1 & (date string of dateIntervention) & contenuMessage2
             set nouveauMessage to make new outgoing message with properties {sender:monAdresseCourrier, subject:monSujet, visible:true, content:contenuMessage}
             
             tell nouveauMessage
@@ -518,186 +654,16 @@ script AppDelegate
             end tell
         end tell
         
-        
-        --display dialog "Fin du programme"
-        -- create an alert
-        --set theAlert to current application's NSAlert's makeAlert:"An alert" buttons:{"Cancel", "OK"} |text|:(theDate as text)
-        --theAlert's showModal() -- returns name of the button
-        --log result
-        
-        
-        (***************************** MAJ du numéro de facture ***************************)
-        
-        my logToFileAndToConsole("----> MAJ des variables de la facture")
-        
-        (* Incrémentation du numéro de facture *)
-        
-        set numeroFacture to numeroFacture + 1
-        my logToFileAndToConsole("Numéro : " & numeroFacture)
-        tfNumeroDeFacture's setStringValue_(numeroFacture) -- MAJ de l'interface
-        
-        
-        (* Création du nom du fichier facture *)
-        
-        set nomFichierFacture to prefixNomFichierFacture & (numeroFacture as text) & extensionFichierFacture
-        my logToFileAndToConsole("Nom du fichier : " & nomFichierFacture)
-        
-        
-        (* Chemin vers le dossier temporaire de stockage de la facture *)
-        
-        set cheminFichierTempFacture to cheminDossierTempFacture & space & nomFichierFacture
-        my logToFileAndToConsole("Chemin temporaire : " & (POSIX path of cheminFichierTempFacture) as text)
-        
-        
-        (* Chemin vers le dossier final de stockage de la facture *)
-        
-        set cheminFactureFinal to cheminDossierFactures & nomFichierFacture
-        my logToFileAndToConsole("Chemin final : " & (POSIX path of cheminFactureFinal) as text)
-        
-        
-        my logToFileAndToConsole("<---- MAJ des variables de la facture")
-        
-        my logToFileAndToConsole("<---- Nouvelle facture\n")
-        
-    end clickButton_
-    
-   
-   
-   ----------------------------------------------------------------------------
-    
-    --                           AUTRES MÉTHODES
-    
-    ----------------------------------------------------------------------------
+    end envoieFactureAvecMail
     
     
-    
-    (*
-     
-     ---------------------  initialisationVariables  ------------------------
-     
-     Initialisation des variables du programme.
-     
-     *)
-    
-    on initialisationVariables()
-        
-        -- Initialisation des variables du programme ---------------------------
-        
-        my logToFileAndToConsole("----> Initialisation des variables")
-        
-        
-        -- numeroFacture : récupéré à partir du numéro de fichier de la dernière facture
-        
-        -- set dossierFacturesAlias to (POSIX file chemindossierFactures) as alias
-        set dossierFacturesAlias to cheminDossierFactures as alias
-        set numeroFacture to my getNumeroFacture(dossierFacturesAlias)
-        my logToFileAndToConsole("Numéro : " & numeroFacture)
-        
-        
-        -- nomFichierFacture : nom du fichier facture de la forme "Facture_000X.pdf"
-        
-        set nomFichierFacture to prefixNomFichierFacture & (numeroFacture as text) & extensionFichierFacture
-        my logToFileAndToConsole("Nom du fichier : " & nomFichierFacture)
-        
-        
-        -- cheminFichierTempFacture : Chemin vers le dossier temporaire de stockage de la facture
-        
-        set cheminFichierTempFacture to cheminDossierTempFacture & space & nomFichierFacture
-        my logToFileAndToConsole("Chemin temporaire : " & (POSIX path of cheminFichierTempFacture) as text)
-        
-        
-        -- cheminFactureFinal : Chemin vers le dossier final de stockage de la facture
-        
-        set cheminFactureFinal to cheminDossierFactures & nomFichierFacture
-        my logToFileAndToConsole("Chemin final : " & (POSIX path of cheminFactureFinal) as text)
-        
-        -- contenuMessage1 et contenuMessage2 : contenu du message à envoyer au client
-        my logToFileAndToConsole("Contenu du message (1ére partie ) : \n" & contenuMessage1)
-        my logToFileAndToConsole("Contenu du message (2ème partie ) : \n" & contenuMessage2)
-        
-        (* dateDuJourCourte : Date du jour au format JJ/MM/AAAA *)
-        
-        --set dateDuJourCourte to short date string of (current date) -- format JJ/MM/AAAA
-        --my logToFileAndToConsole("Date du jour (forme JJ/MM/AA) : " & dateDuJourCourte)
-        
-        
-        
-        my logToFileAndToConsole("<---- Initialisation des variables")
-        
-    end initialisationVariables
-    
-    (*
-     
-     ---------------------  initialisationInterface  ------------------------
-     
-     Initialisation de l'interface du programme.
-     
-     *)
-    
-    on initialisationInterface()
-        
-        -- Initialisation de l'interface du programme ---------------------------
-        
-        -- Initialise le calendrier de l'interface avec la date du jour
-        -- datePicker's setDateAS:(current date) -- Passage à 10.12
-        datePicker's setDateValue_(current date)
-        
-        -- Affiche le numéro de facture en cours
-        tfNumeroDeFacture's setStringValue:numeroFacture
-        --tfNumeroDeFacture's setStringValue_(numeroFacture)
-        
-        -- Affiche le prix horaire
-        tfPrixHoraire's setStringValue:prixHoraire
-        --tfPrixHoraire's setStringValue_(prixHoraire)
-        
-    end initialisationInterface
-    
-
-    ----------------------------------------------------------------------------
-    
-    --                              showAlertModal
-
-    ----------------------------------------------------------------------------
-
-    -- shows modal alert
-    on showAlertModal:sender
-		-- create an alert
-		set theAlert to current application's NSAlert's makeAlert:"An alert" buttons:{"Cancel", "OK"} |text|:"Further explanation"
-		theAlert's showModal() -- returns name of the button
-		log result
-	end showAlertModal:
-
-    
-    
-    ----------------------------------------------------------------------------
-    
-    --                              datePickerGet
-    
-    ----------------------------------------------------------------------------
-    
-    on datePickerGet:sender
-        
-		set theDate to (datePicker's dateAS() as date)
-		log theDate as text
-		log "##"
-		log "##"
-        
-	end datePickerGet:
-    
-    
-    
-    ----------------------------------------------------------------------------
-    
-    --                              list_position
-    
-    ----------------------------------------------------------------------------
+    ---------------------  list_position  ------------------------
     
     (*
      list_position : renvoie la position d'un élément dans une liste.
-     this_item : élément à rechercher.
-     this_list : liste dans laquelle on recherche.
-     résultat : 0 si non trouvé, la position de l'élément
-     dans la liste sinon.
+     this_item     : élément à rechercher.
+     this_list     : liste dans laquelle on recherche.
+     résultat      : la position de l'élément dans la liste, 0 si non trouvé.
      *)
     on list_position(this_item, this_list)
         
@@ -717,48 +683,13 @@ script AppDelegate
     end list_position
     
     
-    ----------------------------------------------------------------------------
-    
-    --                              getDate
-    
-    ----------------------------------------------------------------------------
-    
-    (*
-     getDate :      renvoie la date au format "lundi 31 mars 2014" à partir
-                    d'une date complète.
-     shortDate :    date complète (format "lundi 31 mars 2014 17:19").
-     résultat :     date au format "jour n° jour mois année".
-     *)
-    on getDate(dateComplete)
-        
-        --tell current application to my logToFileAndToConsole("Entrée dans la fonction \"getDate\".")
-        
-        tell current application to log dateComplete as text
-        
-        set monInstant to dateComplete as text
-        set mon_jour_semaine_fr to 1st word of monInstant
-        set mon_jour_fr to 2nd word of monInstant
-        set mon_mois_fr to 3rd word of monInstant
-        set mon_annee_fr to 4th word of monInstant
-        set mon_heure_fr to 5th word of monInstant
-        set ma_minute_fr to 6th word of monInstant
-        set ma_seconde_fr to 7th word of monInstant
-        return mon_jour_semaine_fr & " " & mon_jour_fr & " " & mon_mois_fr & " " & mon_annee_fr
-        
-    end getDate
-    
-
-    ----------------------------------------------------------------------------
-    
-    --                              getNumeroFacture
-    
-    ----------------------------------------------------------------------------
+    ---------------------  getNumeroFacture  ------------------------
 
     (*
      getNumeroFacture : renvoie le numéro de facture à partir du nom du dernier fichier
-     dans le dossier des factures (Facture_00212.pdf).
-     dossierFactures :  dossier contenant les fichiers de facture.
-     résultat :         le numéro de facture à utiliser pour facturer.
+                        dans le dossier des factures (Facture_00212.pdf).
+     dossierFactures  : dossier contenant les fichiers de facture.
+     résultat         : le numéro de facture à utiliser pour facturer.
      *)
     on getNumeroFacture(dossierFactures)
         
@@ -780,11 +711,7 @@ script AppDelegate
 
 
 
-    ----------------------------------------------------------------------------
-    
-    --                              logToFile
-    
-    ----------------------------------------------------------------------------
+    ---------------------  logToFile  ------------------------
     
     (*
      logToFile :    écrit une ligne (en UTF-8) à la fin du fichier referenceVersFichierLog.
@@ -803,7 +730,9 @@ script AppDelegate
         
     end logToFile
     
+    ---------------------  logToFileAndToConsole  ------------------------
     
+    -- Enregistre dans le fichier log et affiche dans la console (voir logToFile)
     
     on logToFileAndToConsole(ligne)
         
