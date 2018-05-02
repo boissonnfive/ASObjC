@@ -1,5 +1,50 @@
 # Release Notes
 
+## Version 1.2.3
+
+### Factorisation du code ... suite
+
+- Création d'un procédure « recupDonneesDeLUtilisateur » qui récupère les données utilisateurs entrées dans l'interface
+- Création d'un procédure « recupInfosClientDansContacts » qui écupère les informations du client dans l'application Contacts
+- Création d'un procédure « creerFactureDansExcel » qui crée la facture dans Excel
+- Création d'un procédure « renommeFichierFacture » qui renomme le fichier facture avec Finder
+- Création d'un procédure « envoieFactureAvecMail » qui envoie la facture avec Mail
+
+
+### Modifications
+
+- Fonction clickButton => clickBtnFacturer
+- Fonction « initialisationInterface » : MAJ TOUS les champs de l'interface
+- Reformatage du log
+
+
+### Créations
+
+- Fonction « dossierRessources » qui renvoie le chemin du dossier ressources
+- Fonction « recupParametres » qui trace les paramètres du programme
+
+
+### Suppressions
+
+- Fonction « getDate »
+- Fonction « datePickerGet »
+- Fonction « majVariablesFacture »
+- Fonction « showAlertModal »
+
+
+### Date du copyright
+
+- fenêtre de l'application (fichier MainMenu.xib)
+- fenêtre « À propos » (fichier Facture-Info.plist)
+
+
+### Numéro de version
+
+- fenêtre de l'application (fichier MainMenu.xib)
+- fenêtre « À propos » (fichier Facture-Info.plist)
+
+
+---
 
 ## Version 1.2.2
 
