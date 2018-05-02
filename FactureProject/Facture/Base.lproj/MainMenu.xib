@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="11762" systemVersion="16C67" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="11762" systemVersion="16G29" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment identifier="macosx"/>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="11762"/>
@@ -695,7 +695,7 @@ DQ
 </string>
                         </buttonCell>
                         <connections>
-                            <action selector="clickButton:" target="Voe-Tx-rLC" id="nqU-I7-XxI"/>
+                            <action selector="clickBtnFacturer:" target="Voe-Tx-rLC" id="DaJ-Im-Mh0"/>
                         </connections>
                     </button>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="SXi-qb-CMb">
@@ -704,7 +704,7 @@ DQ
                             <constraint firstAttribute="width" constant="314" id="MZL-5f-3bJ"/>
                             <constraint firstAttribute="height" constant="17" id="bfI-rB-Dzm"/>
                         </constraints>
-                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Facture © 2017 Bruno Boissonnet - BInfoService" id="9BR-sL-BzC">
+                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Facture © 2018 Bruno Boissonnet - B Info Service" id="9BR-sL-BzC">
                             <font key="font" metaFont="system"/>
                             <color key="textColor" name="disabledControlTextColor" catalog="System" colorSpace="catalog"/>
                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
@@ -713,7 +713,7 @@ DQ
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="k5F-tN-jff">
                         <rect key="frame" x="476" y="280" width="103" height="17"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Version : 1.2.2" id="BnJ-Rn-ZS2">
+                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Version : 1.2.3" id="BnJ-Rn-ZS2">
                             <font key="font" metaFont="system"/>
                             <color key="textColor" name="disabledControlTextColor" catalog="System" colorSpace="catalog"/>
                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
