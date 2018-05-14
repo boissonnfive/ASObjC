@@ -140,13 +140,58 @@ Le modèle de facture doit être formaté de la manière suivante (*):
 
 ### Créer un fichier .dmg
 
-1. Créer un dossier **Facture X.Y.Z** sur le bureau (avec X.Y.Z la dernière version du programme)
-2. Dans XCode, faire un clic droit sur **Facture.app** dans la colonne de droite
-3. Sélectionner le menu **Show en Finder**
-4. Copier le fichier app **Facture** dans le dossier **Facture X.Y.Z**
-5. Copier un raccourci du dossier **Applications** dans le dossier **Facture X.Y.Z**
-6. Ouvrir l'**Utilitaire de disque**
-7. Aller dans **Fichier > Nouvelle image > Image d'un dossier...**
-8. Sélectionner le dossier **Facture X.Y.Z** sur le bureau
+1. Créez un dossier **Facture X.Y.Z** sur le bureau (avec X.Y.Z la dernière version du programme)
+2. Dans XCode, faites un clic droit sur **Facture.app** dans la colonne de droite
+3. Sélectionnez le menu **Show in Finder**
+4. Copiez le fichier app **Facture** dans le dossier **Facture X.Y.Z**
+5. Copiez un raccourci du dossier **Applications** dans le dossier **Facture X.Y.Z**
+6. Avec le **Terminal**, créez un dossier caché **.background** dans le dossier **Facture X.Y.Z** :
 
+        ($cd "~/Desktop/Facture 1.2.3" & mkdir .background & open .background)
+
+7. Quittez le **Terminal** 
+8. Mettez dans le dossier **.background** le fichier d'arrière-plan **Fond_DMG.png**
+9. Ouvrez l'**Utilitaire de disque**
+10. Allez dans **Fichier > Nouvelle image > Image d'un dossier...**
+11. Sélectionnez le dossier **Facture X.Y.Z** sur le bureau et cliquez sur le bouton **Ouvrir**
+12. Une nouvelle fenêtre s'ouvre
+13. Dans le champ **Enregistrer sous : **, mettez **Facture 1.2.3**
+14. Sélectionnez le dossier de destination (Documents par exemple)
+15. Dans la liste déroulante **Chiffrement :**, laissez **aucun**
+16. Dans la liste déroulante **Format d'image :**, sélectionnez **lecture/écriture**
+17. Cliquez sur le bouton **Enregistrer**.
+18. Allez dans le dossier **Documents** et montez l'image **Facture 1.2.3.dmg** en double-cliquant dessus
+19. Sur le bureau, double-cliquez sur le disque **Facture 1.2.3**
+20. Modifiez les options de présentations ( CMD + J) comme suit :
+
+        - **Toujours présenter par icônes**       : coché
+        - **Naviguer en présentation par icônes** : coché
+        - **Organiser par**                       : Aucun
+        - **Trier par**                           : Aucun
+        - **Taille des icônes**                   : 144 x 144
+        - **Espacement de la grille**             : maximum
+        - **Taille du texte**                     : 12
+        - **Position du texte**                   : En bas
+        - **Afficher les informations**           : non coché
+        - **Utiliser un aperçu comme icône**      : coché
+        - **Arrière-plan**                        : Image (et faire glisser l'image du dossier .background de l'image DMG)
+21. Pour l'image d'arrière-plan, ouvrez le **Terminal** et tapez :
+
+        $ cd /Volumes/Facture\ 1.2.3/; open .background
+
+22. Quittez le **Terminal**
+23. Faites glisser l'image **Fond_DMG.png** sur le carré (en laissant la fenêtre Finder du disque **Facture 1.2.3** au premier plan)
+24. Disposez les icônes à droite et à gauche du symbôle flêche.
+25. Fermez la fenêtre Finder du disque **Facture 1.2.3**
+26. Ouvrez l'**Utilitaire de disque**
+27. Dans la colonne de droite, sélectionne l'image **Facture 1.2.3**
+28. Allez dans **Fichier > Nouvelle image > Image de « Facture 1.2.3 »...**
+29. Sélectionnez le dossier de destination (Documents par exemple)
+30. Dans la liste déroulante **Format :**, sélectionnez **lecture/écriture**
+31. Dans la liste déroulante **Chiffrement :**, laissez **aucun**
+32. Cliquez sur le bouton **Enregistrer**.
+33. Quittez l'**Utilitaire de disque**
+34. Démontez le disque **Facture 1.2.3**
+35. Allez dans le dossier **Documents** et montez l'image **Facture 1.2.3.dmg** en double-cliquant dessus
+36. Sur le bureau, double-cliquez sur le disque **Facture 1.2.3**
 
