@@ -1,5 +1,20 @@
 # Release Notes
 
+## Version 1.2.4
+
+### Modifications
+
+- Création d'un fichier icône à partir d'une image "Invoice Icon" de http://www.visualpharm.com
+- Ajout d'un remerciement dans le fichier **Credits.rtf**
+- Modification du fichier **README.md** pour y ajouter la procédure de création d'une image .dmg
+
+### Numéro de version 1.2.4
+
+- fenêtre de l'application (fichier MainMenu.xib)
+- fenêtre « À propos » (fichier Facture-Info.plist)
+
+
+
 ## Version 1.2.3
 
 ### Factorisation du code ... suite
