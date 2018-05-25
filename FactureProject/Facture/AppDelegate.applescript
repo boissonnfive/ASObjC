@@ -16,16 +16,14 @@ script AppDelegate
     
     ----------------------------------------------------------------------------
     
-    -- Prix horaire
+
     property prixHoraire                     :  25.0
-    -- dossier contenant le modèle excel
-    property cheminFichierModeleFactureExcel :  "/Users/bruno/Documents/binfoservice/Modele_Facture_v0_5.xltx"
-    -- dossier d'archivage des factures
-    property cheminDossierFactures           :  "Macintosh HD:Users:bruno:Documents:binfoservice:Factures:"
+    property cheminPOSIXModeleFactureExcel   :  "/Users/bruno/Documents/binfoservice/Modele_Facture_v0_5.xltx"
+    property cheminPOSIXdossierFactures      :  "/Users/bruno/Documents/binfoservice/Factures"
     -- mail
-    property monAdresseCourrier              : "binfoservice@gmail.com"
-    property maSignature                     : "Signature nº1"
-    property monSujet                        : "Facture BInfoService"
+    property monAdresseCourrier              : "Bruno Boissonnet <bruno@binfoservice.fr>"
+    property maSignature                     : "Signature nº5"
+    property monSujet                        : "Facture B Info Service"
     property contenuMessage1                 : "Bonjour,\n\nveuillez trouver ci-jointe la facture de l'intervention du "
     property contenuMessage2                 : ".\n\nCordialement.\nBruno.\n\n---\n\n"
 
@@ -37,17 +35,12 @@ script AppDelegate
 
 
     -- Format du nom du fichier facture.
-    property prefixNomFichierFacture :          "Facture_00"
-    property extensionFichierFacture :          ".pdf"
+    property prefixNomFichierFacture        : "Facture_00"
+    property extensionFichierFacture        : ".pdf"
 
     -- Fichier de log.
-    property fichierLog              :          POSIX file "/Users/bruno/Desktop/log.txt"
-    property referenceVersFichierLog :          ""
-    
-    -- Dossier temporaire où va être enregistrée la facture avant d'être envoyée au client.
-    -- ATTENTION ! Chemin au format HFS car Excel ne comprend pas le POSIX.
-    property cheminDossierTempFacture :         "Macintosh HD:Users:bruno:Desktop:_"
-    
+    property cheminPOSIXFichierLog          : "/Users/bruno/Library/Logs/Facture.log" --"/Users/bruno/Desktop/log.txt"
+    property referenceVersFichierLog        : ""
     
     
     
@@ -70,20 +63,20 @@ script AppDelegate
     
     -- Variables nécessaire au fonctionnement du programme
     -- Autres propriétés du script
-    property numeroFacture            : ""
-    property cheminFichierTempFacture : ""
-    property nomFichierFacture        : ""
-    property cheminFactureFinal       : ""
-    property dossierFacturesAlias     : ""
+    property numeroFacture                  : ""
+    --property cheminPOSIXFichierTempFacture  : ""
+    property nomFichierFacture              : ""
+    property cheminPOSIXFactureFinal        : ""
+    property aliasDossierFactures           : ""
     -- Client
-    property adresseCourrierClient    : ""
-    property nomClient                : ""
-    property adresseFormateeClient    : ""
-    property formeJuridiqueClient     : ""
+    property adresseCourrierClient          : ""
+    property nomClient                      : ""
+    property adresseFormateeClient          : ""
+    property formeJuridiqueClient           : ""
     -- Intervention
-    property typeIntervention         : ""
-    property dureeIntervention        : ""
-    property dateIntervention         : ""
+    property typeIntervention               : ""
+    property dureeIntervention              : ""
+    property dateIntervention               : ""
     
 
     ----------------------------------------------------------------------------
@@ -102,14 +95,15 @@ script AppDelegate
     on applicationWillFinishLaunching:aNotification
 		-- Insert code here to initialize your application before any files are opened
         
-        set referenceVersFichierLog to open for access fichierLog with write permission
+        set referenceVersFichierLog to open for access (cheminPOSIXFichierLog as POSIX file) with write permission
+
+        logToFileAndToConsole("")
+        logToFileAndToConsole("---------- Début du programme ------------")
+        logToFileAndToConsole("")
         
-        my logToFileAndToConsole("")
-        my logToFileAndToConsole("---------- Début du programme ------------")
-        
-        my recupParametres()
-        my initialisationVariables()
-        my initialisationInterface()
+        recupParametres()
+        initialisationVariables()
+        initialisationInterface()
         
     end applicationWillFinishLaunching:
     
@@ -122,8 +116,9 @@ script AppDelegate
     on applicationShouldTerminate:sender
         
 		-- Insert code here to do any housekeeping before your application quits
-        my logToFileAndToConsole("----------- Fin du programme -------------")
-        my logToFileAndToConsole("")
+        logToFileAndToConsole("")
+        logToFileAndToConsole("----------- Fin du programme -------------")
+        logToFileAndToConsole("")
         
         close access referenceVersFichierLog
         
@@ -152,31 +147,51 @@ script AppDelegate
     
     on clickBtnFacturer:sender
         
-        my logToFileAndToConsole("----> Nouvelle facture")
+        logToFileAndToConsole("----> Nouvelle facture")
         
         -- Récupère les données utilisateurs entrées dans l'interface
-        my recupDonneesDeLUtilisateur()
+        
+        recupDonneesDeLUtilisateur()
         
         -- Récupère les informations du client dans l'application Contacts
-        my recupInfosClientDansContacts()
+        
+        recupInfosClientDansContacts()
         
         -- Création de la facture dans Excel
-        my creerFactureDansExcel()
+        
+        set aliasFichierTempFacture to creerFactureDansExcel()
         
         
-        -- Renommage du fichier facture avec Finder
-        my renommeFichierFacture()
+        -- Renommage du fichier facture
+        
+        logToFileAndToConsole("Renomme " & aliasFichierTempFacture as text & " en " & nomFichierFacture)
+        
+        renommeElement(aliasFichierTempFacture, nomFichierFacture)
+        
+        -- Déplacement de la facture dans le dossier des factures
+        
+        logToFileAndToConsole("Déplace " & aliasFichierTempFacture as text & " dans le dossier " & cheminPOSIXdossierFactures)
+        
+        deplaceElement(aliasFichierTempFacture, (cheminPOSIXdossierFactures as POSIX file) as alias)
         
         
         -- Envoi de la facture avec Mail
-        my envoieFactureAvecMail()
+        
+        set contenuMessage to contenuMessage1 & (date string of dateIntervention) & contenuMessage2
+        set listeDestinataires to {}
+        set listeAliasPJ to {}
+        set end of listeDestinataires to adresseCourrierClient
+        set end of listeAliasPJ to ((cheminPOSIXFactureFinal as POSIX file) as alias)
+        
+        envoieAvecMail(monAdresseCourrier, listeDestinataires, monSujet, contenuMessage, listeAliasPJ, maSignature, false)
         
         
         -- MAJ du numéro de facture et de l'interface        
-        my initialisationVariables()
-        my initialisationInterface()
         
-        my logToFileAndToConsole("<---- Nouvelle facture\n")
+        initialisationVariables()
+        initialisationInterface()
+        
+        logToFileAndToConsole("<---- Nouvelle facture")
         
     end clickBtnFacturer
     
@@ -196,23 +211,22 @@ script AppDelegate
     
     on recupParametres()
         
-        my logToFileAndToConsole("----> Récupération des paramètres")
+        logToFileAndToConsole("----> Récupération des paramètres")
         
-        my logToFileAndToConsole("prixHoraire                      : " & prixHoraire)
-        my logToFileAndToConsole("cheminFichierModeleFactureExcel  : " & cheminFichierModeleFactureExcel)
-        my logToFileAndToConsole("cheminDossierFactures            : " & cheminDossierFactures)
-        my logToFileAndToConsole("monAdresseCourrier               : " & monAdresseCourrier)
-        my logToFileAndToConsole("maSignature                      : " & maSignature)
-        my logToFileAndToConsole("monSujet                         : " & monSujet)
-        my logToFileAndToConsole("contenuMessage1                  : " & contenuMessage1)
-        my logToFileAndToConsole("contenuMessage2                  : " & contenuMessage2)
-        my logToFileAndToConsole("prefixNomFichierFacture          : " & prefixNomFichierFacture)
-        my logToFileAndToConsole("extensionFichierFacture          : " & extensionFichierFacture)
-        my logToFileAndToConsole("fichierLog                       : " & fichierLog)
-        my logToFileAndToConsole("referenceVersFichierLog          : " & referenceVersFichierLog)
-        my logToFileAndToConsole("cheminDossierTempFacture         : " & cheminDossierTempFacture)
+        logToFileAndToConsole("prixHoraire                   : " & prixHoraire)
+        logToFileAndToConsole("cheminPOSIXModeleFactureExcel : " & cheminPOSIXModeleFactureExcel)
+        logToFileAndToConsole("cheminPOSIXdossierFactures    : " & cheminPOSIXdossierFactures)
+        logToFileAndToConsole("monAdresseCourrier            : " & monAdresseCourrier)
+        logToFileAndToConsole("maSignature                   : " & maSignature)
+        logToFileAndToConsole("monSujet                      : " & monSujet)
+        logToFileAndToConsole("contenuMessage1               : " & contenuMessage1)
+        logToFileAndToConsole("contenuMessage2               : " & contenuMessage2)
+        logToFileAndToConsole("prefixNomFichierFacture       : " & prefixNomFichierFacture)
+        logToFileAndToConsole("extensionFichierFacture       : " & extensionFichierFacture)
+        logToFileAndToConsole("cheminPOSIXFichierLog         : " & cheminPOSIXFichierLog)
+        logToFileAndToConsole("referenceVersFichierLog       : " & referenceVersFichierLog)
         
-        my logToFileAndToConsole("<---- Récupération des paramètres")
+        logToFileAndToConsole("<---- Récupération des paramètres")
         
     end recupParametres
     
@@ -223,35 +237,31 @@ script AppDelegate
     
     on initialisationVariables()
         
-        my logToFileAndToConsole("----> Initialisation des variables")
+        logToFileAndToConsole("----> Initialisation des variables")
         
         -- numeroFacture : récupéré à partir du numéro de fichier de la dernière facture
         
-        -- set dossierFacturesAlias to (POSIX file chemindossierFactures) as alias
-        set dossierFacturesAlias to cheminDossierFactures as alias
-        set numeroFacture to my getNumeroFacture(dossierFacturesAlias)
-        my logToFileAndToConsole("Numéro de la facture        : " & numeroFacture)
+        
+        set aliasDossierFactures to ((cheminPOSIXdossierFactures as POSIX file) as alias)
+        
+        set numeroFacture to getNumeroFacture(aliasDossierFactures)
+        logToFileAndToConsole("Numéro de la facture        : " & numeroFacture)
         
         
         -- nomFichierFacture : nom du fichier facture de la forme "Facture_000X.pdf"
         
         set nomFichierFacture to prefixNomFichierFacture & (numeroFacture as text) & extensionFichierFacture
-        my logToFileAndToConsole("Nom du fichier facture      : " & nomFichierFacture)
+        logToFileAndToConsole("Nom du fichier facture      : " & nomFichierFacture)
         
         
-        -- cheminFichierTempFacture : Chemin vers le dossier temporaire de stockage de la facture
+        -- cheminPOSIXFactureFinal : Chemin vers le dossier final de stockage de la facture
         
-        set cheminFichierTempFacture to cheminDossierTempFacture & space & nomFichierFacture
-        my logToFileAndToConsole("Chemin temporaire           : " & (POSIX path of cheminFichierTempFacture) as text)
+        set cheminPOSIXFactureFinal to cheminPOSIXdossierFactures & "/" & nomFichierFacture
+        --my logToFileAndToConsole("Chemin final                : " & (POSIX path of cheminPOSIXFactureFinal) as text)
+        logToFileAndToConsole("Chemin final                : " & cheminPOSIXFactureFinal)
 
 
-        -- cheminFactureFinal : Chemin vers le dossier final de stockage de la facture
-        
-        set cheminFactureFinal to cheminDossierFactures & nomFichierFacture
-        my logToFileAndToConsole("Chemin final                : " & (POSIX path of cheminFactureFinal) as text)
-
-
-        my logToFileAndToConsole("<---- Initialisation des variables")
+        logToFileAndToConsole("<---- Initialisation des variables")
         
     end initialisationVariables
     
@@ -263,23 +273,34 @@ script AppDelegate
     
     on initialisationInterface()
         
+        logToFileAndToConsole("----> Initialisation de l'interface")
+        
         -- Initialise le calendrier de l'interface avec la date du jour
         -- datePicker's setDateAS:(current date) -- Passage à 10.12
+        logToFileAndToConsole("Date du jour                  : " & date string of (current date))
         datePicker's setDateValue:(current date)
         
         -- Affiche le numéro de facture en cours
+        logToFileAndToConsole("Numéro de facture affiché     : " & numeroFacture)
         tfNumeroDeFacture's setStringValue:numeroFacture
         --tfNumeroDeFacture's setStringValue_(numeroFacture)
         
         -- Affiche le prix horaire
+        logToFileAndToConsole("Prix horaire affiché          : " & prixHoraire)
         tfPrixHoraire's setStringValue:prixHoraire
         --tfPrixHoraire's setStringValue_(prixHoraire)
         
         -- Affiche un exemple de nom de client
+        logToFileAndToConsole("Nom client affiché            : " & "ex: Boissonnet")
         tfNomClient's setStringValue:"ex: Boissonnet"
         
+        logToFileAndToConsole("Type d'intervention affiché   : " & "Réparation\nAssistance à domicile\nFormation")
         tfTypeIntervention's setStringValue:"Réparation\nAssistance à domicile\nFormation"
+        
+        logToFileAndToConsole("Durée d'intervention affichée : " & "")
         tfDureeIntervention's setStringValue:""
+        
+        logToFileAndToConsole("<---- Initialisation de l'interface")
         
     end initialisationInterface
     
@@ -311,19 +332,22 @@ script AppDelegate
  
     on recupDonneesDeLUtilisateur()
         
-        my logToFileAndToConsole("")
+        --logToFileAndToConsole("")
+        logToFileAndToConsole("----> Récupération des données de l'utilisateur")
         
         set nomClient to (tfNomClient's stringValue()) as text
-        my logToFileAndToConsole("Nom du Client à rechercher       : " & nomClient)
+        logToFileAndToConsole("Nom du Client à rechercher       : " & nomClient)
         
         set typeIntervention to (tfTypeIntervention's stringValue()) as text
-        my logToFileAndToConsole("Type d'intervention sélectionné  : " & typeIntervention)
+        logToFileAndToConsole("Type d'intervention sélectionné  : " & typeIntervention)
         
         set dureeIntervention to (tfDureeIntervention's stringValue()) as text
-        my logToFileAndToConsole("Durée d'intervention entrée      : " & dureeIntervention)
+        logToFileAndToConsole("Durée d'intervention entrée      : " & dureeIntervention)
        
         set dateIntervention to (datePicker's dateAS() as date)
-        my logToFileAndToConsole("Date d'intervention sélectionnée : " & (date string of dateIntervention) as text)
+        logToFileAndToConsole("Date d'intervention sélectionnée : " & (date string of dateIntervention) as text)
+        
+        logToFileAndToConsole("<---- Récupération des données de l'utilisateur")
         
     end recupDonneesDeLUtilisateur
 
@@ -335,10 +359,10 @@ script AppDelegate
     
     on recupInfosClientDansContacts()
         
-        my logToFileAndToConsole("")
+        logToFileAndToConsole("----> Récupération des infos dans Contacts")
         
         set nomClient to (tfNomClient's stringValue()) as text
-        my logToFileAndToConsole("Client recherché                 : " & nomClient)
+        --logToFileAndToConsole("Client recherché                 : " & nomClient)
         
         
         (* Cherche le client dans l'application « Contacts » *)
@@ -500,6 +524,8 @@ script AppDelegate
         -- MAJ de l'interface avec le nom complet du client
         tfNomClient's setStringValue:nomClient
         
+        logToFileAndToConsole("<---- Récupération des infos dans Contacts")
+        
         
     end recupInfosClientDansContacts
     
@@ -512,14 +538,18 @@ script AppDelegate
     
     on creerFactureDansExcel()
         
+        logToFileAndToConsole("----> Création de la facture dans Excel")
         
+        --tell current application to set aliasDossierTempFacture to (POSIX file cheminPOSIXDossierTempFacture) as alias
+        set aliasTemporaryItems to (path to temporary items from user domain)
+
         (* Crée un fichier excel à partir d'un modèle, le modifie en fonction des données entrées et l'enregistre en pdf sur le bureau.
          Le fichier aura le nom: " Facture_00XXX.pdf" avec une espace devant ajoutée automatiquement par excel qui concatène le nom du fichier avec le nom de la feuille de calcul.*)
         tell application "Microsoft Excel"
             
             --tell current application to my logToFileAndToConsole("Appel de l'application Excel.")
-            
-            open cheminFichierModeleFactureExcel as POSIX file
+
+            open cheminPOSIXModeleFactureExcel as POSIX file
             
             tell worksheet "Sheet1" of active workbook
                 
@@ -554,18 +584,26 @@ script AppDelegate
             -- On donne un nom à la feuille (ex : "Facture_00" & "234")
             set name of active sheet to (prefixNomFichierFacture & (numeroFacture as text))
             -- On enregistre au format PDF en indiquant le chemin du fichier de la forme
-            -- chemin + extension (ex : "Macintosh HD:Users:bruno:Desktop:" & ".pdf"
-            -- le fichier produit aura la forme : chemin + une espace + nom de la feuille + extension
-            -- (ex : "Macintosh HD:Users:bruno:Desktop: Facture_00234.pdf"
+            -- chemin + qqch + extension (ex : "Macintosh HD:Users:bruno:Desktop:" & "_" & ".pdf"
+            -- si on ne met pas qqch, le fichier a l'extension .(null)
+            -- le fichier produit aura la forme : chemin + qqch + une espace + nom de la feuille + extension
+            -- (ex : "Macintosh HD:Users:bruno:Desktop:_ Facture_00234.pdf"
             -- Il faudra donc renommer le fichier pour enlever l'espace inutile
-            tell active sheet to save as filename (cheminDossierTempFacture & extensionFichierFacture) file format PDF file format
+            
+            tell active sheet to save as filename ((aliasTemporaryItems as text) & "_" & extensionFichierFacture) file format PDF file format
+            
+            
+            tell current application to my logToFileAndToConsole("Facture enregistrée en tant que : " & ((aliasTemporaryItems as text) & "_ " & nomFichierFacture))
             
             -- On n'enregistre pas les modifications dans le fichier modèle
             quit without saving
             
         end tell --application "Microsoft Excel"
         
-    
+        logToFileAndToConsole("<---- Création de la facture dans Excel")
+        
+        return ((aliasTemporaryItems as text) & "_ " & nomFichierFacture) as alias
+        
     end creerFactureDansExcel
     
     
@@ -574,36 +612,79 @@ script AppDelegate
     -- On renome le fichier facture correctement (Impossible de le faire depuis Excel)
     -- et on le déplace dans le dossier des factures.
     
-    on renommeFichierFacture()
-        
+#    on renommeFichierFacture()
+#        
+#        tell application "Finder"
+#            
+#            --tell current application to my logToFileAndToConsole("Appel de l'application Finder.")
+#            
+#            set fichierTempFactureAlias to (POSIX file cheminPOSIXFichierTempFacture) as alias
+#            
+#            -- On renome le fichier pour enlever l'espace inutile
+#            set the name of fichierTempFactureAlias to nomFichierFacture
+#            
+#            
+#            try
+#                -- Si on déplace un fichier, il faut mettre à jour la variable qui pointe dessus
+#                -- car sinon on ne peut plus l'utiliser
+#                set myNewFile to move fichierTempFactureAlias to aliasDossierFactures
+#                
+#                --tell current application to my logToFileAndToConsole("Copie de " & cheminPOSIXFichierTempFacture & " vers " & cheminPOSIXdossierFactures & ".")
+#                
+#                on error
+#                display alert "Impossible de copier le fichier: " & ¬
+#                cheminPOSIXFichierTempFacture & return ¬
+#                & "Un fichier portant le même nom existe peut-être déjà." & return ¬
+#                & "Opération de déplacement annulée."
+#            end try
+#            
+#        end tell
+#        
+#    end renommeFichierFacture
+
+    (*
+     Nom                	: renommeElement
+     Description       	: Renomme un élément du Finder (fichier/dossier/alias)
+     aliasElement 		: alias vers l'élément
+     nouveauNom	 	: nouveau nom de l'élément
+     retour			: RIEN
+     *)
+    on renommeElement(aliasElement, nouveauNom)
+        tell application "Finder" to set name of aliasElement to nouveauNom
+    end renommeElement
+    
+    
+    
+    (*
+     Nom				: deplaceElement
+     Description		: Déplace un élément à l'endroit indiqué
+     nomDossier		: alias de l'élément à déplacer
+     aliasDossierParent	: alias du dossier qui va contenir l'élément
+     Résultat			: un alias vers l'élément déplacé
+     Remarque		: Si un élément portant le même nom existe déjà, une fenêtre de dialogue s'ouvre et on renvoie un alias vers cet élément.
+     *)
+    on deplaceElement(aliasElement, aliasDestination)
         tell application "Finder"
-            
-            --tell current application to my logToFileAndToConsole("Appel de l'application Finder.")
-            
-            set fichierTempFactureAlias to cheminFichierTempFacture as alias
-            
-            -- On renome le fichier pour enlever l'espace inutile
-            set the name of fichierTempFactureAlias to nomFichierFacture
-            
-            set dossierFacturesAlias to cheminDossierFactures as alias
-            
             try
-                -- Si on déplace un fichier, il faut mettre à jour la variable qui pointe dessus
-                -- car sinon on ne peut plus l'utiliser
-                set myNewFile to move fichierTempFactureAlias to dossierFacturesAlias
-                
-                --tell current application to my logToFileAndToConsole("Copie de " & cheminFichierTempFacture & " vers " & cheminDossierFactures & ".")
-                
+                set retour to move aliasElement to aliasDestination
                 on error
-                display alert "Impossible de copier le fichier: " & ¬
-                cheminFichierTempFacture & return ¬
-                & "Un fichier portant le même nom existe peut-être déjà." & return ¬
+                --display alert "Impossible de déplacer ce dossier, car un dossier du même nom existe déjà."
+                display alert "Impossible de déplacer l'élément : " & ¬
+                (POSIX path of aliasElement) & return ¬
+                & "Un élément portant le même nom existe peut-être déjà." & return ¬
                 & "Opération de déplacement annulée."
+                
+                --set nomElement to name of aliasElement
+                --set nomCompletElement to (aliasDestination as text) & nomElement
+                --set retour to nomCompletElement as alias
+                set retour to aliasElement
             end try
-            
         end tell
-        
-    end renommeFichierFacture
+        return retour
+    end deplaceElement
+
+    
+    
     
     
     ---------------------  envoieFactureAvecMail  ------------------------
@@ -634,7 +715,7 @@ script AppDelegate
                 
                 make new recipient at end of to recipients with properties {address:adresseCourrierClient}
                 
-                make new attachment with properties {file name:(POSIX path of cheminFactureFinal)} -- inséré à la fin du message
+                make new attachment with properties {file name:(POSIX path of cheminPOSIXFactureFinal)} -- inséré à la fin du message
                 delay 5
                 
             end tell
@@ -656,6 +737,71 @@ script AppDelegate
         
     end envoieFactureAvecMail
     
+    on envoieAvecMail(adresseExpediteur, listeDestinataires, sujetMessage, contenuMessage, listeAliasPJ, nomSignature, envoi)
+        
+        (*
+         Impossible d'ajouter la signature avant la pièce jointe,
+         sinon elle est supprimée ou considérée comme du texte
+         et non plus comme une signature (elle est même soulignée).
+         
+         Pour répondre à ce problème, j'ajoute la pièce jointe,
+         j'attends 5 secondes et j'ajoute la signature à la fin
+         (via l'interface graphique).
+         *)
+        
+        logToFileAndToConsole("----> Création du mail dans Mail")
+        
+        set messageVisible to true -- Obligatoire pour utiliser le GUI Scripting pour la signature
+        
+        tell application "Mail"
+            
+            activate
+            set nouveauMessage to make new outgoing message with properties {sender:adresseExpediteur, subject:sujetMessage, visible:messageVisible, content:contenuMessage}
+            
+            tell nouveauMessage
+                
+                repeat with adresseDestinataire in listeDestinataires
+                    make new recipient at end of to recipients with properties {address:adresseDestinataire}
+                end repeat
+                
+                repeat with aliasPJ in listeAliasPJ
+                    make new attachment with properties {file name:aliasPJ} -- inséré à la fin du message
+                    delay 1
+                end repeat
+                
+            end tell
+            
+            activate
+            
+            (* Insère la signature par GUI Scripting *)
+            
+            tell current application to my ajouteSignatureDansMail(nomSignature)
+            
+            if envoi then
+                tell current application to my logToFileAndToConsole("*** Envoi du mail ***")
+                send nouveauMessage
+            end if
+            
+        end tell
+        
+        logToFileAndToConsole("<---- Création du mail dans Mail")
+        
+    end envoieAvecMail
+
+    on ajouteSignatureDansMail(nomSignature)
+        tell application "System Events"
+            tell process "Mail"
+                --delay 1.3
+                tell window 1
+                    --get every UI element
+                    tell pop up button 2
+                        click
+                        click menu item nomSignature of menu 1
+                    end tell
+                end tell
+            end tell
+        end tell
+    end ajouteSignatureDansMail
     
     ---------------------  list_position  ------------------------
     
@@ -691,21 +837,11 @@ script AppDelegate
      dossierFactures  : dossier contenant les fichiers de facture.
      résultat         : le numéro de facture à utiliser pour facturer.
      *)
-    on getNumeroFacture(dossierFactures)
+    on getNumeroFacture(aliasDossierFactures)
         
-        set listeNomFichiers to {}
-        
-        tell application "Finder"
-            set tousLesFichiers to every file of folder dossierFactures
-            repeat with unFichier in tousLesFichiers
-                set nomFichier to the name of unFichier
-                --set end of listeNomFichiers to nomFichier
-            end repeat
-            set numeroFacture to text 11 through 13 of nomFichier
-            
-            return (numeroFacture as integer) + 1
-        end tell
-        
+        tell application "Finder" to set nomFichier to name of (last item of ((every file of folder aliasDossierFactures) as list))
+        set numeroFacture to text 9 through 13 of nomFichier --> ex : "Facture_00471.pdf"
+        return (numeroFacture as integer) + 1
         
     end getNumeroFacture
 

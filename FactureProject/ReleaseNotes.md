@@ -1,5 +1,36 @@
 # Release Notes
 
+## Version 1.2.5
+
+### Meilleure factorisation du code
+
+- renommeElement
+- deplaceElement
+- envoieAvecMail
+- ajouteSignatureDansMail
+ 
+Et meilleur nommage des variables et des fonctions.
+
+
+## Trace log ##
+
+- On ne trace plus sur le bureau mais dans **~/Library/Logs/Facture.log**.
+- Ajout de nombreuses traces dans le code
+
+
+## Dossier temporaire ##
+
+- On n'utilise plus le bureau comme dossier temporaire pour la facture, mais le dossier **Temporary items** de macOS.
+
+
+
+### Numéro de version 1.2.5
+
+- fenêtre de l'application (fichier MainMenu.xib)
+- fenêtre « À propos » (fichier Facture-Info.plist)
+
+
+
 ## Version 1.2.4
 
 ### Modifications
@@ -12,7 +43,6 @@
 
 - fenêtre de l'application (fichier MainMenu.xib)
 - fenêtre « À propos » (fichier Facture-Info.plist)
-
 
 
 ## Version 1.2.3
